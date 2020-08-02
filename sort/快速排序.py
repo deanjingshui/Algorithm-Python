@@ -4,6 +4,7 @@ def diverse(lst):
     """
     author:fenghao
     date:2020.8.2
+    快速排序所需的辅助函数
     根据中间的mid元素，将序列分割为2个子序列，左序列中的元素都小于mid，有序列大于等于mid
     """
     if len(lst) == 0:    # 注意边界条件0
