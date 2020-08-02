@@ -27,10 +27,10 @@ def quick_sort(lst):
     author:fenghao
     date:2020.8.2
     思路：递归
-        递归公式
-                f(n), n=0,1
-        f(n) =
-                f(小于mid的子序列) + mid + f(大于等于mid的子序列) , n>1
+          递归公式
+                    n, len(n)=0,1
+            f(n) =
+                    f(小于mid的子序列) + mid + f(大于等于mid的子序列) , len(n)>1
 
         子函数g(list),返回以list中间位置为mid，以及小于/大于等于mid的2个子序列
     """
