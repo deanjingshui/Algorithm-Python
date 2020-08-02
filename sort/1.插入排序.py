@@ -57,7 +57,6 @@ def insertion_sort_classic_2(list_case):
     return list_case
 
 
-
 def insert_sort_1(list_case):
     """
     author:internet
@@ -81,7 +80,7 @@ def insert_sort_1(list_case):
 def insert_sort_2(lst):
     """
     author:fenghao
-    date；2020.8.1
+    date:2020.8.1
     思路：外层依次遍历输入，内层遍历结果列表，直到发现外层元素小于内层元素，则插入
     关于插入的方式：
         找到大于待插入元素i的那个元素j的位置，将j..i整体后移一位，将原来元素j位置的值设置为i
@@ -105,7 +104,7 @@ def insert_sort_2(lst):
 def insert_sort_3(lst):
     """
     author:fenghao
-    date；2020.8.1
+    date:2020.8.1
     思路：外层依次遍历输入，内层遍历输出列表，直到发现外层元素小于内层元素，则插入
     原地修改(in place)
     """
