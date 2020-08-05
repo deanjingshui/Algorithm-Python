@@ -33,23 +33,8 @@ F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
 """
 class Solution_1:
     """
-    fenghao
-    2020.7.22
-    思路：递归的关键是找到出口条件
-    """
-
-    def fib(self, N: int) -> int:
-        if N == 0:
-            return 0
-        if N == 1:
-            return 1
-        return self.fib(N-2) + self.fib(N-1)
-
-
-class Solution_1:
-    """
-    fenghao
-    2020.7.22
+    author:fenghao
+    date:2020.7.22
     思路：递归的关键是找到出口条件
     """
 
@@ -62,10 +47,64 @@ class Solution_1:
 
 
 class Solution_2:
+    """
+    author:fenghao
+    date:2020.8.5
+    思路：递归，带记忆功能
+    缺点： 记忆化存储需要使用 O(N)的额外空间。
+    """
+    def __init__(self):
+        self.mem = {}   # 记忆缓存
+
+    def fib(self, N: int) -> int:
+        if N == 0:
+            return 0
+        if N == 1:
+            return 1
+
+        # if N-1 in self.mem:
+        #     sub_1 = self.mem[N-1]
+        # else:
+        #     sub_1 = self.fib(N-1)
+        #     self.mem[N-1] = sub_1
+        # if N-2 in self.mem:
+        #     sub_2 = self.mem[N-2]
+        # else:
+        #     sub_2 = self.fib(N-2)
+        #     self.mem[N-2] = sub_2
+        # return sub_1 + sub_2
+        # 上面写逻辑不够简练，简化成如下
+        if N-1 not in self.mem:
+            self.mem[N - 1] = self.fib(N-1)
+        if N-2 not in self.mem:
+            self.mem[N-2] = self.fib(N-2)
+        return self.mem[N-1] + self.mem[N-2]
+
+
+class Solution_3:
     """"
-    fenghao
-    2020.7.27
-    不使用递归，使用迭代
+    author:fenghao
+    date:2020.8.5
+    不使用“递归”，使用“迭代(动态规划？)”，且非常节省内存，只需要2个额外的变量pre、prepre
+    空间复杂度：O(n)
+    """
+    def fib(self, N: int) -> int:
+        dp = {}
+        dp[0] = 0
+        dp[1] = 1
+        if N > 1:
+            for i in range(2, N+1):
+                dp[i] = dp[i-2] + dp[i-1]
+        return dp[N]
+
+
+class Solution_4:
+    """"
+    author:fenghao
+    date:2020.7.27
+    revision:2020.8.5
+    继续优化“迭代”，且非常节省内存，只需要2个额外的变量pre、prepre
+    空间复杂度：O(1)
     """
     def fib(self, N: int) -> int:
         if N == 0:
@@ -84,3 +123,5 @@ class Solution_2:
         return ret
 
 
+my_sol = Solution_2()
+print(my_sol.fib(11))
