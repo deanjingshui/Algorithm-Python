@@ -46,27 +46,20 @@ class Solution_1:
         return self.fib(N-2) + self.fib(N-1)
 
 
-class Solution_2:
-    """"
-    fenghao
-    2020.7.27
-    不使用递归，使用迭代
+class Solution_1:
     """
+    fenghao
+    2020.7.22
+    思路：递归的关键是找到出口条件
+    """
+
     def fib(self, N: int) -> int:
         if N == 0:
-            ret = 0
-        elif N == 1:
-            ret = 1
-        else:
-            pre = 0
-            prepre = 1
-            i = 2
-            while i <= N:
-                ret = pre + prepre
-                pre = prepre
-                prepre = ret
-                i += 1
-        return ret
+            return 0
+        if N == 1:
+            return 1
+        return self.fib(N-2) + self.fib(N-1)
+
 
 class Solution_2:
     """"
@@ -89,3 +82,5 @@ class Solution_2:
                 prepre = ret
                 i += 1
         return ret
+
+
