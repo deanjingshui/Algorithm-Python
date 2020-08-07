@@ -73,14 +73,14 @@ class Solution_4:
     date:2020.8.7
     思路：一遍哈希表
         哈希查找的时间复杂度为O(1)
-    时间复杂度：O(n)  
+    时间复杂度：O(n)
     """
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         mapping = {}
         for index,i in enumerate(nums):
             if mapping.get(target-i) is not None and mapping[target-i] != index:
                 return [index, mapping[target - i]]
-            mapping[i] = index
+            mapping[i] = index  # 注意：先判断再把元素加入哈希表
 
 
 nums = [2, 7, 11, 15]
