@@ -20,5 +20,5 @@ def selection_sort(list_case):
 if __name__=="__main__":
 
     list_test_case1 = [54,36,12,29,50]
-    print('{:>12} {}'.format('before sort:',list_test_case1))
-    print('{:>12} {}'.format('after sort:', selection_sort(list_test_case1)))
+    print('{:>12} {}'.format('before 排序:',list_test_case1))
+    print('{:>12} {}'.format('after 排序:', selection_sort(list_test_case1)))

@@ -22,5 +22,5 @@ def modiBubbleSort(alist):
 if __name__=="__main__":
 
     list_test_case1 = [54,36,12,29,50]
-    print('before sort:', list_test_case1)
-    print('after sort:', modiBubbleSort(list_test_case1))
+    print('before 排序:', list_test_case1)
+    print('after 排序:', modiBubbleSort(list_test_case1))

@@ -27,7 +27,7 @@ class Solution():
         #     sec = nums[left]
         #     for thd in nums[index+2:-1]
         #     	if first + sec + thd == 0:
-        #         three_list.append([first,sec,thd].sort())
+        #         three_list.append([first,sec,thd].排序())
         # # duplicate
         # for ls in three_list:
         #   if ls not in ret:
