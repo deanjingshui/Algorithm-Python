@@ -76,7 +76,7 @@ class Solution_4:
     """
     author:fenghao
     date:2020.8.7
-    思路：排序 + 双指针
+    思路：排序 + 双指针（向中间逼近）
     """
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         nums_order = sorted(nums)
