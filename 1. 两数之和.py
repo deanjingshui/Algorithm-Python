@@ -38,7 +38,7 @@ class Solution_2:
     author:fenghao
     date:2020.8.7
     思路：暴力2层遍历
-    因上一种使用了enumerate且存在数组切片，可读性不佳，优化代码如下
+    因上一种使用了enumerate且存在数组切片，可读性不佳，使用nums的索引优化代码如下
     """
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         for i in range(0, len(nums)-1):
@@ -46,8 +46,8 @@ class Solution_2:
                 if nums[i] + nums[j] == target:
                     return [i, j]
 
-# 以上两个都是直观思路，穷举所有的两数搭配的情况，然后判断两数之和是否等于target
-# 建议转变思路为---->遍历每个元素 x，并查找是否存在一个值与 target - x 相等的目标元素,即“查找”
+# 以上两个都是直观思路，穷举了所有的两数搭配的情况，然后判断两数之和是否等于target
+# 建议转变思路为====>遍历每个元素 x，并查找是否存在一个值与 target - x 相等的目标元素,即“查找”
 
 
 class Solution_3:
@@ -62,6 +62,11 @@ class Solution_3:
         mapping = {}  # 哈希冲突怎么办？
         for index,i in enumerate(nums):
             mapping[i] = index
+        print("mapping: {}".format(mapping))
+        """
+       nums = [3, 3], target = 6 会发生哈希冲突，但解题不会失败的原因：
+       哈希表冲突时保存的是最后出现的值，而第二次遍历时最先遍历的是首次出现的值
+       """
         for index,i in enumerate(nums):
             if mapping.get(target-i) is not None and mapping[target-i] != index:  # 注意，该目标元素不能是index本身
                 return [index, mapping[target-i]]
@@ -69,23 +74,39 @@ class Solution_3:
 
 class Solution_4:
     """
-    author:https://leetcode-cn.com/problems/two-sum/solution/liang-shu-zhi-he-by-leetcode-2/
+    author:fenghao
     date:2020.8.7
-    思路：一遍哈希表
-        哈希查找的时间复杂度为O(1)
-    时间复杂度：O(n)
+    思路：排序 + 双指针
     """
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        mapping = {}
-        for index,i in enumerate(nums):
-            if mapping.get(target-i) is not None and mapping[target-i] != index:
-                return [index, mapping[target - i]]
-            mapping[i] = index  # 注意：先判断再把元素加入哈希表
+        nums_order = sorted(nums)
+        p_left = 0
+        p_right = len(nums) - 1
+        ret_val = []
+        while p_left < p_right:
+            if nums_order[p_left] + nums_order[p_right] == target:
+                break
+            elif nums_order[p_left] + nums_order[p_right] < target:
+                p_left += 1
+            else:
+                p_right -= 1
+        """
+       易错用例
+       nums = [3, 3]
+       target = 6
+       需要处理
+       """
+        m = nums.index(nums_order[p_left])
+        nums.pop(m)
+        n = nums.index(nums_order[p_right])
+        if n >= m:
+            n += 1
+        return [m, n]
 
 
-nums = [2, 7, 11, 15]
-target = 9
-# nums = [3, 3]
-# target = 6
+# nums = [2, 7, 11, 15]
+# target = 9
+nums = [3, 3]
+target = 6
 my_sol = Solution_4()
 print(my_sol.twoSum(nums, target))
