@@ -27,13 +27,17 @@ nums[i] 是一个在0到49,999范围内的整数。
 from typing import List
 
 
-class Solution:
+class Solution_1:
     """
     author:fenghao
     date:2020.8.14
     思路：
+        思路来源于直接对题目的翻译，但是算法耗时严重
         1、先找到数组中出现次数最多的那个元素（可能多个）
         2、找到出现次数最多元素（可能多个）首次和末次出现的位置，位置索引差值+1为长度，长度的最小值即结果
+    力扣测试耗时：1000+ms
+    时间复杂度：
+        count运算O(n)，且遍历1遍====>O(n^2)
     """
     def findShortestSubArray(self, nums: List[int]) -> int:
         max_nums = [nums[0]]
@@ -56,6 +60,44 @@ class Solution:
                 ret = len_tmp
         return ret
 
-nums = [1, 2, 2, 3, 1, 4, 2]
-my_sol = Solution()
+
+class Solution_2:
+    """
+    author:fenghao
+    date:2020.8.16
+    思路：
+        哈希表
+        只遍历一遍，记录数字出现的次数以及首尾索引，具体维护2个哈希表
+    力扣测试耗时：176 ms
+    时间复杂度：O(n)
+    """
+    def findShortestSubArray(self, nums: List[int]) -> int:
+        """
+        第一个哈希表存储遍历元素的信息
+        {1：{'first_index':0 index, 'last_index':4, 'len': 4, 'degree': 2}
+         2：{'first_index': 1, 'last_index': 6, 'len': 6, 'degree': 3}}
+         第二个哈希表存储整体数组的信息
+         {'degree': 1, 'nums': [], 'len':[]}
+        """
+        nums_map = {}
+        degree_map = {'degree': 1, 'nums': [], 'len':[]}  # todo bug?
+        for index, num in enumerate(nums):
+            if nums_map.get(num) is None:
+                nums_map[num] = {'first_index': index, 'last_index': index, 'len': 1, 'degree': 1}
+            else:
+                nums_map[num]['last_index'] = index
+                nums_map[num]['len'] = index - nums_map[num]['first_index'] + 1
+                nums_map[num]['degree'] += 1
+            if degree_map['degree'] < nums_map[num]['degree']:
+                degree_map['degree'] = nums_map[num]['degree']
+                degree_map['nums'] = [num]
+                degree_map['len'] = [nums_map[num]['len']]
+            elif degree_map['degree'] == nums_map[num]['degree']:
+                degree_map['nums'].append(num)
+                degree_map['len'].append(nums_map[num]['len'])
+        return min(degree_map['len'])
+
+# nums = [1, 2, 2, 3, 1, 4, 2]
+nums = [1,2,2,3,1]
+my_sol = Solution_2()
 print(my_sol.findShortestSubArray(nums))
