@@ -27,7 +27,7 @@ class Solution:
     """
     def maxSubArray(self, nums: List[int]) -> int:
         max_num = max(nums)
-        if max_num < 0:
+        if max_num < 0:          # 考虑元素全是负值的情况，避免影响后面的算法
             return max_num
 
         sum_max = nums[0]
@@ -40,7 +40,7 @@ class Solution:
                     sum_tmp = 0
                 sum_max = max(sum_max, num)
             else:
-                if sum_tmp + num <= 0:
+                if sum_tmp + num <= 0:   # 一旦加上新元素后变为小于等于0，则清零
                     sum_tmp = 0
                 else:
                     sum_tmp += num
