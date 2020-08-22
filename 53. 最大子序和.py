@@ -16,7 +16,19 @@
 from typing import List
 
 
-class Solution:
+class Solution_1:
+    """
+    author:fenghao
+    date:2020.8.22
+    思路：
+        暴力穷举所有子序列
+    时间复杂度：O(n^2)
+    """
+    def maxSubArray(self, nums: List[int]) -> int:
+        pass
+
+
+class Solution_2:
     """
     author:fenghao
     date:2020.8.19
@@ -31,24 +43,37 @@ class Solution:
             return max_num
 
         sum_max = nums[0]
-        sum_tmp = nums[0]
+        sum_tmp = nums[0]   # 维护一个当前指针前的非负的累加和，会视情况清零
         for num in nums[1:]:
             if sum_max < 0:
                 if num > 0:
                     sum_tmp = num
                 else:
-                    sum_tmp = 0
+                    sum_tmp = 0    # 清零
                 sum_max = max(sum_max, num)
             else:
                 if sum_tmp + num <= 0:   # 一旦加上新元素后变为小于等于0，则清零
-                    sum_tmp = 0
+                    sum_tmp = 0    # 清零
                 else:
                     sum_tmp += num
                 sum_max = max(sum_max, sum_tmp)
         return sum_max
 
 
+class Solution_3:
+    """
+    author:fenghao
+    date:2020.8.19
+    思路：
+        增强可读性
+    时间复杂度：O(n)
+    """
+
+    def maxSubArray(self, nums: List[int]) -> int:
+        pass
+
+
 # nums = [-2,1,-3,4,-1,2,1,-5,4]
 nums = [-2,1]
-my_sol = Solution()
+my_sol = Solution_1()
 print(my_sol.maxSubArray(nums))
