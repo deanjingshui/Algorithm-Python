@@ -22,10 +22,18 @@ class Solution_1:
     date:2020.8.22
     思路：
         暴力穷举所有子序列
-    时间复杂度：O(n^2)
+    时间复杂度：O(n^2)  力扣提交超出时间限制
     """
     def maxSubArray(self, nums: List[int]) -> int:
-        pass
+        sum_max = nums[0]
+        len_array = len(nums)
+        for i in range(len_array):
+            sum_tmp = nums[i]   # 累积和
+            sum_max = max(sum_max, sum_tmp)
+            for j in range(i+1, len_array):
+                sum_tmp += nums[j]
+                sum_max = max(sum_max, sum_tmp)
+        return sum_max
 
 
 class Solution_2:
@@ -73,7 +81,7 @@ class Solution_3:
         pass
 
 
-# nums = [-2,1,-3,4,-1,2,1,-5,4]
-nums = [-2,1]
+nums = [-2,1,-3,4,-1,2,1,-5,4]
+# nums = [-2,1]
 my_sol = Solution_1()
 print(my_sol.maxSubArray(nums))
