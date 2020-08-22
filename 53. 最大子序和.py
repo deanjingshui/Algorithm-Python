@@ -21,12 +21,12 @@ class Solution_1:
     author:fenghao
     date:2020.8.22
     思路：
-        暴力穷举所有子序列
+        暴力穷举所有连续子序列
     时间复杂度：O(n^2)  力扣提交超出时间限制
     """
     def maxSubArray(self, nums: List[int]) -> int:
-        sum_max = nums[0]
         len_array = len(nums)
+        sum_max = nums[0]
         for i in range(len_array):
             sum_tmp = nums[i]   # 累积和
             sum_max = max(sum_max, sum_tmp)
@@ -71,17 +71,32 @@ class Solution_2:
 class Solution_3:
     """
     author:fenghao
-    date:2020.8.19
+    date:2020.8.22
     思路：
-        增强可读性
+        滑窗，可读性更好
     时间复杂度：O(n)
     """
 
     def maxSubArray(self, nums: List[int]) -> int:
-        pass
+        len_array = len(nums)
+        sum_max = nums[0]
+        sum_tmp = max(0, nums[0])        # 累积和,非负
+        for i in range(1,len_array):
+            if sum_max < 0:
+                sum_max = max(sum_max, nums[i])
+                sum_tmp = max(0, nums[i])
+            else:
+                sum_tmp += nums[i]
+                sum_max = max(sum_max, sum_tmp)
+                # 判断是否将累积和清零，注意维持累积和为非负,否则没必要累加
+                sum_tmp = max(0, sum_tmp)
+        return sum_max
 
 
-nums = [-2,1,-3,4,-1,2,1,-5,4]
+# nums = [-2,1,-3,4,-1,2,1,-5,4]
 # nums = [-2,1]
-my_sol = Solution_1()
+# nums = [-1,1,2,1]
+# nums = [-2,1,-3,4,-1,2,1,-5,4]
+nums = [1,2]
+my_sol = Solution_3()
 print(my_sol.maxSubArray(nums))
