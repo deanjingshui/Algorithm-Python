@@ -16,15 +16,16 @@
 from typing import List
 
 
-class Solution_1:
+class Solution_force:
     """
     author:fenghao
     date:2020.8.7
-    思路：穷举，暴力2层遍历
+    思路：穷举，2层遍历
     注意理解题意：
         1、只要有一次满足即可返回结果
         2、要求返回的是索引，不是元素
-    时间复杂度：O(1)
+    时间复杂度：O(n^2)
+    空间复杂度：O(1)
     """
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         for index_i,i in enumerate(nums[:-1]):
@@ -33,12 +34,12 @@ class Solution_1:
                     return [index_i, index_i+index_j]
 
 
-class Solution_2:
+class Solution_force_modify:
     """
     author:fenghao
     date:2020.8.7
-    思路：暴力2层遍历
-    因上一种使用了enumerate且存在数组切片，可读性不佳，使用nums的索引优化代码如下
+    思路：穷举，2层遍历
+          因上一种使用了enumerate且存在数组切片，可读性不佳，使用nums的索引优化代码如下
     """
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         for i in range(0, len(nums)-1):
@@ -50,12 +51,13 @@ class Solution_2:
 # 建议转变思路为====>遍历每个元素 x，并查找是否存在一个值与 target - x 相等的目标元素,即“查找”
 
 
-class Solution_3:
+class Solution_hash:
     """
     author:https://leetcode-cn.com/problems/two-sum/solution/liang-shu-zhi-he-by-leetcode-2/
     date:2020.8.7
-    思路：两遍哈希表
-        哈希查找的时间复杂度为O(1)
+    思路：哈希表
+          哈希查找的时间复杂度为O(1)
+          2次迭代，第一次迭代用于构建哈希表，第二次迭代用于哈希查找
     时间复杂度：O(n)  虽然有2次迭代，但并没有嵌套关系
     """
     def twoSum(self, nums: List[int], target: int) -> List[int]:
@@ -72,11 +74,11 @@ class Solution_3:
                 return [index, mapping[target-i]]
 
 
-class Solution_4:
+class Solution_double_pointer:
     """
     author:fenghao
     date:2020.8.7
-    思路：排序 + 双指针（向中间逼近）
+    思路：排序 + 双指针（左右指针向中间逼近）
     """
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         nums_order = sorted(nums)
@@ -108,5 +110,5 @@ class Solution_4:
 # target = 9
 nums = [3, 3]
 target = 6
-my_sol = Solution_4()
+my_sol = Solution_double_pointer()
 print(my_sol.twoSum(nums, target))
