@@ -17,6 +17,33 @@
 链接：https://leetcode-cn.com/problems/minimum-window-substring
 """
 
+class Solution_force:
+    """
+    date:2020.9.14
+    author:fenghao
+    思路：朴素解法
+        步骤如下
+        <1 遍历一遍S,获得T每个字符出现的位置，字符与位置的映射关系存进字典   {A:[0,10], B:[3,9], C:[5,12]}
+        <2 根据字典排列组合
+        <3 求出最短字符串
+    """
+    def minWindow(self, s: str, t: str) -> str:
+        pass
+
+
+class Solution_force_leetcode:
+    """
+    date:2020.9.14
+    author:力扣
+    思路：朴素解法  暴力枚举
+          <1 枚举字符串S的所有长度大于等于T 的子串
+          <2 逐个判断这些子串中，那些覆盖了T 的所有字符
+          <3 在枚举的过程中，记录符合条件的，长度最短的那个子串
+    """
+
+    def minWindow(self, s: str, t: str) -> str:
+        pass
+
 
 class Solution_sliding_window:
     """
@@ -69,14 +96,13 @@ class Solution_sliding_window_optimize:
     """
     date:2020.9.14
     author:fenghao
-    思路：滑窗     {A:index_A, B:[index_B_1, index_B_2], C:index_C}
+    思路：滑窗
           优化，提高效率
 
           效率提升的难点，左指针left的更新
           目标 ABBC
-          B A B   此时left指向第一个B
-          B A B B 此时left指针需要指向A
-
+              B A B   此时left指向第一个B
+              B A B B 此时left指针需要指向A
 
     时间复杂度：O(n*m)   924ms
     """
@@ -86,8 +112,8 @@ class Solution_sliding_window_optimize:
         left = right = 0  # 窗口的左右端
         mapping = {}
         len_mapping = 0
-        t_count = {}
-        for char in t:     # t中字符出现的频次
+        t_count = {}     # t中字符出现的频次
+        for char in t:
             t_count[char] = t.count(char)
         for index, char in enumerate(s):
             if char in t:
@@ -98,7 +124,7 @@ class Solution_sliding_window_optimize:
                     mapping[char].append(index)
                     # 更新left指针
                     tmp = mapping[list(mapping.keys())[0]][0]
-                    for i in mapping:       # 低效
+                    for i in mapping:       # 这里低效
                         tmp = min(tmp, mapping[i][0])
                     left = tmp
                 else:
@@ -188,12 +214,11 @@ class Solution_sliding_window_leetcode:
             2、然后，移动左指针，直到窗口不满足条件，
             3、记录刚刚好满足条件的窗口（记录“局部最优解”）
             4、判断右指针是否已经到尾部，否则继续前面的3个步骤
-        如何判断窗口满足条件？需要选择合适的数据结构来存储滑窗的“关键特征”
-            统计t的字符个数(len_window_t)，当len_window_t等于t的字符个数len_t时，满足条件。注意处理窗口中多余的t字符，比如目标ABBC 当滑窗含有超过2个B时，还算2个
-        构建2个数据结构：
-            t每个字符的出现频次          t_count_dict       {A:1, B:2, C:1}
-            窗口中的t每次字符出现频次    window_count_dict  {A:1, B:2}
-            注：推荐看官方解法视频，提到了“词频数组”
+        如何判断窗口满足条件？
+            统计窗口含有的t的字符个数(len_window_t)，当len_window_t等于t的字符个数len_t时，满足条件。注意处理窗口中多余的t字符，比如目标ABBC 当滑窗含有超过2个B时，B还算2个。
+                这需要选择合适的数据结构来存储滑窗的“关键特征”，构建2个数据结构：
+    ​			1、t每个字符的出现频次          t_count_dict       {A:1, B:2, C:1}
+    ​        	2、窗口中的t每次字符出现频次    window_count_dict  {A:1, B:2}
 
     时间复杂度：O(n)   192ms
     """
