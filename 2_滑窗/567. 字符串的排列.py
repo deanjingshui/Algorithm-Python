@@ -90,7 +90,7 @@ class Solution:
                         if len_window_s1 == len_s1:
                             return True
                     else:
-                        window_count_dict = dict()  # 清空缓存   bug
+                        window_count_dict = dict()  # 清空缓存   bug  s1 = "adc"  s2 = "dcda"  不能清空
                         window_count_dict[char] = 1
                         len_window_s1 = 1
             else:
@@ -98,6 +98,65 @@ class Solution:
                 len_window_s1 = 0
         return False
 
+class Solution:
+    """
+    date:2020.9.17
+    author:fenghao
+    思路：
+        滑窗
+            注意：
+                需要字符是连续的
+            算法步骤：
+                1、先移动右指针，直到窗口满足：收集全字符，超出的频次不累计
+                2、然后，移动左指针，直到窗口满足：len_window == len_window_s1
+                3、判断满足: len_window = len_s1  则结束
+                4、否则，继续前面的3个步骤
+
+    时间复杂度：O(n)  n是s2的长度
+    空间复杂度：O(n)  n是s1的长度
+    """
+
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        # 构建s1的“字符频次字典”
+        s1_count_dict = dict()
+        for char in s1:
+            s1_count_dict[char] = s1.count(char)
+
+        # 构建窗口“字符频次字典”
+        window_count_dict = dict()
+
+        len_window_s1 = 0  # 窗口中含有s1字符的个数，用于判断是否满足要求，超出的频次不累计
+        len_s2 = len(s2)
+        len_s1 = len(s1)
+        left = right = 0
+        while right < len_s2:
+            # 右指针移动
+            while len_window_s1 < len_s1 and right < len_s2:
+                char = s2[right]
+                if char in s1:
+                    if char not in window_count_dict:
+                        window_count_dict[char] = 1
+                        len_window_s1 += 1
+                    else:
+                        if window_count_dict[char] < s1_count_dict[char]:
+                            len_window_s1 += 1
+                        window_count_dict[char] += 1
+                right += 1
+
+            # 左指针移动
+            while right - left != len_window_s1:
+                char = s2[left]
+                if char in window_count_dict:
+                    if window_count_dict[char] <= s1_count_dict[char]:
+                        len_window_s1 -= 1
+                    window_count_dict[char] -= 1
+                left += 1
+
+            # 判断是否满足
+            if len_window_s1 == len_s1:
+                return True
+
+        return False
 
 # s1 = "ab"
 # s2 = "eidbaooo"
