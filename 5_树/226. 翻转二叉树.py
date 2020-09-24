@@ -36,9 +36,6 @@ class Solution_recursive:
     date:2020.9.24
     author:fenghao
     思路：递归
-          总结出递归的两个条件如下：
-            终止条件：当前节点为 null 时返回
-            交换当前节点的左右节点，再递归的交换当前节点的左节点，递归的交换当前节点的右节点
 
           递归实现也就是深度优先遍历的方式，“从上到下”
 
@@ -59,7 +56,11 @@ class Solution_recursive_simplify_code:
     author:力扣
             https://leetcode-cn.com/problems/invert-binary-tree/solution/dong-hua-yan-shi-liang-chong-shi-xian-226-fan-zhua/
     思路：递归
-            简化代码，提高可读性
+            总结出递归的两个条件如下：
+                终止条件：当前节点为 null 时返回
+                交换当前节点的左右节点，再递归的交换当前节点的左节点，递归的交换当前节点的右节点
+            递归有两种方式，一种是先交换，再递归调用。还一种是先递归调用，再交换。两种方式都可以实现
+
     时间复杂度：O(n)  每个元素都需要访问一次
     空间复杂度：O(h)  h是树的高度
         使用的空间由递归栈的深度决定，它等于当前节点在二叉树中的高度。
@@ -97,6 +98,10 @@ class Solution_iterate:
                             则移动到右节点
                             否则，出栈，并移动到出栈的节点
         此题难点是迭代的实现方法
+
+        我的这这种解法本质上是DFS，特点是利用了栈
+        这个链接，提到了这是DFS
+        https://leetcode-cn.com/problems/invert-binary-tree/solution/di-gui-bfshe-dfsduo-chong-fang-shi-jie-jue-quan-bu/
 
     时间复杂度：O(n)   每个元素都需要访问一次？
     空间复杂度：O(h)   栈最大为树的高度h
