@@ -47,16 +47,37 @@ class Solution_recursive:
         return [root.val] + left + right
 
 
-class Solution:
+class Solution_iterate_stack:
     """
-    date:2020.9.23
+    date:2020.9.27
     author:fenghao
     思路：迭代
-    时间复杂度：O()  n为二叉树的高度
-    空间复杂度：O()
+
+          维护一个数据结构（栈），每次弹出最左侧的节点(暂时留着右节点)，然后先后压入这个节点的右节点、左节点（注意顺序）
+          不断重复，直到这个数据结构为空
+          [root]
+          [root.left, root.right]
+          [root.left.left, root.left.right, root.right]
+
+          这是深度优先遍历DFS
+
+    时间复杂度：O(n)  n为二叉树的节点个数
+    空间复杂度：O(h)  h为二叉树的高度
     """
     def preorderTraversal(self, root: TreeNode) -> List[int]:
-        pass
+        if not root:
+            return []
+
+        result = []
+        nodes_stack = [root]
+        while nodes_stack:
+            node = nodes_stack.pop(0)
+            result.append(node.val)
+            if node.right:
+                nodes_stack.insert(0, node.right)
+            if node.left:
+                nodes_stack.insert(0, node.left)
+        return result
 
 
 node_1 = TreeNode(1)
@@ -64,5 +85,5 @@ node_2 = TreeNode(2)
 node_3 = TreeNode(3)
 node_1.right = node_2
 node_2.left = node_3
-my_sol = Solution()
+my_sol = Solution_iterate_stack()
 print(my_sol.preorderTraversal(node_1))
