@@ -1,5 +1,6 @@
 """
-给定一个二叉树，返回它的中序 遍历。
+94. 二叉树的中序遍历
+给定一个二叉树，返回它的中序 遍历。
 
 示例:
 
@@ -11,53 +12,121 @@
    3
 
 输出: [1,3,2]
-进阶: 递归算法很简单，你可以通过迭代算法完成吗？
+进阶: 递归算法很简单，你可以通过迭代算法完成吗？
 
 来源：力扣（LeetCode）
 链接：https://leetcode-cn.com/problems/binary-tree-inorder-traversal
-
 """
 from typing import List
 
 
-# Definition for a binary 树 node.
+# Definition for a binary tree node.
 class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
-    def __str__(self):
-        print(self.val)
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
-class Solution:
+
+class Solution_recursive_1:
     """
-    fenghao
-    2020.7.22
+    date:2020.8.4
+    author；fenghao
     思路：递归
     """
-    def __init__(self):
-        self.ret = []  # 结果
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        if root is None:  # 异常输入
+            return []
 
-    def inorderTraversal_run(self, root: TreeNode):
-        # 没有返回值的递归，结果保存在对象的属性中
-        # 出口条件，是叶子节点，但是没有return这种返回动作？
-        if root.left is None and root.right is None:
-            self.ret.append(root.val)
-        else:
-            # 先对左子树递归
-            if root.left is not None:
-                self.inorderTraversal_run(root.left)
-            # 中间节点
-            self.ret.append(root.val)
-            # 最后右子树
-            if root.right is not None:
-                self.inorderTraversal_run(root.right)
+        sub_left = [] if root.left is None else self.inorderTraversal(root.left)
+        sub_right = [] if root.right is None else self.inorderTraversal(root.right)
+
+        ret = sub_left + [root.val] + sub_right
+        return ret
+
+
+class Solution_recursive_2:
+    """
+    date:2020.9.28
+    author:fenghao
+    思路：递归
+    """
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+
+        # 递归结束条件
+        if not root:
+            return []
+
+        left = right = []
+        if root.left:
+            left = self.inorderTraversal(root.left)
+        if root.right:
+            right = self.inorderTraversal(root.right)
+        return left + [root.val] + right
+
+
+class Solution_recursive:
+    """
+    date:2020.7.22
+    author:fenghao
+    思路：递归
+        递归思想：学习如下
+        https://leetcode-cn.com/problems/fibonacci-number/solution/dong-tai-gui-hua-tao-lu-xiang-jie-by-labuladong/
+    """
+    def __init__(self):
+        self.ret = []
 
     def inorderTraversal(self, root: TreeNode) -> List[int]:
-        if root is None:  # 边界条件
-            return []
-        self.inorderTraversal_run(root)
+
+        # 如果左子树非空
+            # 左子树调用自身
+
+        # 否则
+            # 记录中间节点
+
+            # 右子树调用自身
+
+        if root.left is not None:
+            self.inorderTraversal(root.left)
+        else:
+            self.ret.append(root.val)
+            self.inorderTraversal(root.right)
         return self.ret
+
+
+class Solution_iterate:
+    """
+    date:2020.8.4
+    author；fenghao
+    思路：迭代
+
+          维护一个数据结构（栈），每次压入左节点，直到无左节点，则
+                        将弹出栈顶连续2个元素（当前节点以及父节点），并将2个节点的值存入结果，并压入父节点的右节点(如有)
+          不断重复，直到这个数据结构(栈)为空
+          [root]
+          [root.left, root]
+          [root.left.left, root.left, root]
+
+          这是深度优先遍历DFS
+
+    """
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        result = []
+        nodes_stack = [root]
+        while nodes_stack:
+            node = nodes_stack[0]
+            if node.left:
+                nodes_stack.insert(0, node.left)
+            else:
+                node = nodes_stack.pop(0)   # 当前节点
+                result.append(node.val)
+                node = nodes_stack.pop(0)   # 父节点
+                result.append(node.val)
+                if node.right:
+                    nodes_stack.insert(0, node.right)
+
+
+        return result
 
 
 node_1 = TreeNode(1)
@@ -65,8 +134,5 @@ node_2 = TreeNode(2)
 node_3 = TreeNode(3)
 node_1.right = node_2
 node_2.left = node_3
-my_sol = Solution()
+my_sol = Solution_iterate()
 print(my_sol.inorderTraversal(node_1))
-
-
-
