@@ -96,12 +96,15 @@ class Solution_recursive:
 
 class Solution_iterate:
     """
-    date:2020.8.4
+    date:2020.9.28
     author；fenghao
     思路：迭代
 
           维护一个数据结构（栈），每次压入左节点，直到无左节点，则
-                        将弹出栈顶连续2个元素（当前节点以及父节点），并将2个节点的值存入结果，并压入父节点的右节点(如有)
+                        将弹出栈顶元素（当前节点），并将节点的值存入结果
+                        如果当前节点还有右节点，则
+                            压入当前节点的右节点
+                            否则，当前节点是叶子节点，需要继续弹出栈顶元素，并将该栈顶节点值存入结果
           不断重复，直到这个数据结构(栈)为空
           [root]
           [root.left, root]
@@ -111,21 +114,24 @@ class Solution_iterate:
 
     """
     def inorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+
         result = []
         nodes_stack = [root]
         while nodes_stack:
             node = nodes_stack[0]
             if node.left:
                 nodes_stack.insert(0, node.left)
-            else:
-                node = nodes_stack.pop(0)   # 当前节点
-                result.append(node.val)
-                node = nodes_stack.pop(0)   # 父节点
+            else:       # 无左节点
+                node = nodes_stack.pop(0)   # 弹出当前节点
                 result.append(node.val)
                 if node.right:
                     nodes_stack.insert(0, node.right)
-
-
+                else:  # 如果是叶子节点
+                    if nodes_stack:
+                        node = nodes_stack.pop(0)  # 将叶子节点的父节点也弹出
+                        result.append(node.val)
         return result
 
 
