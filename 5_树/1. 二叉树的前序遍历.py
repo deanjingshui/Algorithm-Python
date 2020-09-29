@@ -53,8 +53,8 @@ class Solution_iterate_stack:
     author:fenghao
     思路：迭代
 
-          维护一个数据结构（栈），每次弹出最左侧的节点(暂时留着右节点)，然后先后压入这个节点的右节点、左节点（注意顺序）
-          不断重复，直到这个数据结构为空
+          维护一个数据结构（栈），每次弹出栈顶的节点(暂时留着右节点)，并将该节点的值存进结果，然后先后压入这个节点的右节点、左节点（注意入栈的顺序）
+          不断重复，直到这个数据结构(栈)为空
           [root]
           [root.left, root.right]
           [root.left.left, root.left.right, root.right]
