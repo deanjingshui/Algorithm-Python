@@ -27,7 +27,7 @@ class TreeNode:
         self.right = right
 
 
-class Solution:
+class Solution_recursive:
     """
     date:2020.9.28
     author:fenghao
@@ -47,10 +47,56 @@ class Solution:
         return left + right + [root.val]
 
 
+class Solution_iterate_stack:
+    """
+    date:2020.9.29
+    author:fenghao
+    思路：迭代
+            维护一个数据结构（栈），每次压入左节点，直到无左节点，则
+                        如果当前节点被记录过，则
+                            弹出当前节点，并将该节点值存入结果
+                        否则
+                            如果当前节点还有右节点，则
+                                压入当前节点的右节点，并记录当前节点（中间节点）
+                            否则
+                                是叶子节点，如果当前节点是右侧节点，弹出该节点，并将该节点值存入结果
+
+            不断重复，直到这个数据结构(栈)为空
+            [root]
+            [root.left, root]
+            [root.left.left, root.left, root]
+
+    时间复杂度：O()
+    空间复杂度：O()
+    """
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+        result = list()
+        nodes_stack = [root]
+        nodes_passed = set()     # 记录由左节点跨到右节点时所经过的父节点，避免死循环
+        while nodes_stack:
+            node = nodes_stack[0]
+            if node in nodes_passed:
+                node = nodes_stack.pop(0)
+                result.append(node.val)
+                continue
+            if node.left and node not in nodes_passed:   # 修复bug: 避免进入死循环
+                nodes_stack.insert(0, node.left)
+            else:       # 无左节点
+                if node.right:
+                    nodes_passed.add(node)     # 记录由左节点跨到右节点时所经过的父节点
+                    nodes_stack.insert(0, node.right)
+                else:  # 如果是叶子节点
+                    node = nodes_stack.pop(0)  # 将叶子节点的父节点也弹出
+                    result.append(node.val)
+        return result
+
+
 node_1 = TreeNode(1)
 node_2 = TreeNode(2)
 node_3 = TreeNode(3)
 node_1.right = node_2
 node_2.left = node_3
-my_sol = Solution()
+my_sol = Solution_iterate_stack()
 print(my_sol.postorderTraversal(node_1))
