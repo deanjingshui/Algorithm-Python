@@ -31,7 +31,7 @@ class TreeNode:
 class Solution_recursive_1:
     """
     date:2020.8.4
-    author；fenghao
+    author:fenghao
     思路：递归
     """
     def inorderTraversal(self, root: TreeNode) -> List[int]:
@@ -94,51 +94,80 @@ class Solution_recursive:
         return self.ret
 
 
-class Solution_iterate:
+class Solution_iterate_stack:
     """
     date:2020.9.28
     author；fenghao
     思路：迭代
 
-          维护一个数据结构（栈），每次压入左节点，直到无左节点，则
-                        将弹出栈顶元素（当前节点），并将节点的值存入结果
-                        如果当前节点还有右节点，则
-                            压入当前节点的右节点
-                            否则，当前节点是叶子节点，需要继续弹出栈顶元素，并将该栈顶节点值存入结果
+          维护一个数据结构（栈），只要栈非空，则
+                如果栈顶节点有左节点，且栈顶节点没有被记录过，则
+                    将左节点压入栈
+                否则
+                    将弹出栈顶元素（当前节点），并将节点的值存入结果
+                    如果当前节点还有右节点，则
+                        压入当前节点的右节点
+                    否则
+                        当前节点是叶子节点，需要继续弹出栈顶元素，并将该栈顶节点值存入结果
           不断重复，直到这个数据结构(栈)为空
           [root]
           [root.left, root]
           [root.left.left, root.left, root]
 
+          失败：会进入死循环
+          解决：记录弹出节点的父节点，遇到记录过的节点则即使其有左节点也不将左节点压入栈
+
           这是深度优先遍历DFS
 
+    时间复杂度：O()
+    空间复杂度：
     """
     def inorderTraversal(self, root: TreeNode) -> List[int]:
         if not root:
             return []
 
-        result = []
+        result = list()
         nodes_stack = [root]
+        nodes_passed = set()     # 记录弹出节点的的父节点，避免死循环
         while nodes_stack:
             node = nodes_stack[0]
-            if node.left:
+            if node.left and node not in nodes_passed:   # 修复bug: 避免进入死循环   “剪枝”？
                 nodes_stack.insert(0, node.left)
             else:       # 无左节点
                 node = nodes_stack.pop(0)   # 弹出当前节点
                 result.append(node.val)
+                if nodes_stack:
+                    nodes_passed.add(nodes_stack[0])    # 记录弹出节点的的父节点
                 if node.right:
                     nodes_stack.insert(0, node.right)
                 else:  # 如果是叶子节点
                     if nodes_stack:
                         node = nodes_stack.pop(0)  # 将叶子节点的父节点也弹出
                         result.append(node.val)
+                        if nodes_stack:
+                            nodes_passed.add(nodes_stack[0])
+                        if node.right:
+                            nodes_stack.insert(0, node.right)
         return result
 
+
+# node_1 = TreeNode(1)
+# node_2 = TreeNode(2)
+# node_3 = TreeNode(3)
+# node_1.right = node_2
+# node_2.left = node_3
+
+# node_1 = TreeNode(1)
+# node_2 = TreeNode(2)
+# node_3 = TreeNode(3)
+# node_2.left = node_3
+# node_3.left = node_1
 
 node_1 = TreeNode(1)
 node_2 = TreeNode(2)
 node_3 = TreeNode(3)
-node_1.right = node_2
-node_2.left = node_3
-my_sol = Solution_iterate()
-print(my_sol.inorderTraversal(node_1))
+node_3.left = node_1
+node_3.right = node_2
+
+my_sol = Solution_iterate_stack()
+print(my_sol.inorderTraversal(node_3))
