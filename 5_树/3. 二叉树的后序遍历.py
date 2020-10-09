@@ -66,6 +66,8 @@ class Solution_iterate_stack:
             [root.left, root]
             [root.left.left, root.left, root]
 
+            BUG:进入死循环
+
     时间复杂度：O()
     空间复杂度：O()
     """
@@ -93,10 +95,41 @@ class Solution_iterate_stack:
         return result
 
 
+class Solution_iterate_stack_bugfix:
+    """
+    date:2020.9.29
+    author:fenghao
+    思路：
+         基于上一个解法，解决进入死循环的bug
+         不再记录由左节点跨到右节点时所经过的父节点
+         而是，记录所有存储过值的节点，一旦发现当前节点的左右节点被记录过，说明当前节点是中间节点
+
+    时间复杂度：O()
+    空间复杂度：O()
+    """
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+        result = list()
+        nodes_stack = [root]
+        nodes_passed = set()     # 记录由左节点跨到右节点时所经过的父节点，避免死循环
+        while nodes_stack:
+            node = nodes_stack[0]
+            if node.left and node.left not in nodes_passed:   # 修复bug: 避免进入死循环
+                nodes_stack.insert(0, node.left)
+            elif node.right and node.right not in nodes_passed:
+                nodes_stack.insert(0, node.right)
+            else:       # 无左节点 或 左右节点均已记录
+                node = nodes_stack.pop(0)  # 弹出当前节点
+                result.append(node.val)
+                nodes_passed.add(node)  # 记录当前节点
+        return result
+
+
 node_1 = TreeNode(1)
 node_2 = TreeNode(2)
 node_3 = TreeNode(3)
 node_1.right = node_2
 node_2.left = node_3
-my_sol = Solution_iterate_stack()
+my_sol = Solution_iterate_stack_bugfix()
 print(my_sol.postorderTraversal(node_1))
