@@ -156,17 +156,42 @@ class Solution_BFS_optimize_optimize:
 class Solution_recursive:
     """
     date:2020.10.10
-    author:fenghao + 力扣
+    author:力扣
     思路：
-        二叉树为镜像的定义：
-            左右子树镜像：
+        二叉树对称的条件：
+            左右子树互为镜像，条件：
                 <1 左子树与右子树的根节点相等
                 <2 左子树的左子树与右子树的右子树镜像
                    左子树的右子树与右子树的左子树镜像
+            可见，这是递归的逻辑
+
+        难点：发现左右子树的镜像是一个递归
 
     """
+    def isMirror(self, left: TreeNode, right: TreeNode) -> bool:
+        if left is None and right is None:
+            return True
+        # if left is None and right is not None:   # 待逻辑优化点
+        #     return False
+        # if left is not None and right is None:
+        #     return False
+        if left is None or right is None:
+            return False
+
+        # if left.val != right.val:   # 待逻辑优化点
+        #     return False
+        # if self.isMirror(left.left, right.right) and self.isMirror(left.right, right.left):   # 待逻辑优化点
+        #     return True
+        return left.val == right.val and self.isMirror(left.left, right.right) and self.isMirror(left.right, right.left)
+
     def isSymmetric(self, root: TreeNode) -> bool:
-        pass
+        if not root:
+            return True
+        # if self.isMirror(root.left, root.right):  # 冗余代码，直接return这个表达式即可
+        #     return True
+        # else:
+        #     return False
+        return self.isMirror(root.left, root.right)
 
 
 node_1 = TreeNode(1)
@@ -183,5 +208,6 @@ node_2.right = node_5
 node_3.left = node_6
 node_3.right = node_7
 
-my_sol = Solution_BFS_optimize()
+# my_sol = Solution_BFS_optimize()
+my_sol = Solution_recursive()
 print(my_sol.isSymmetric(node_1))
