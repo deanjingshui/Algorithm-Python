@@ -88,7 +88,7 @@ class Solution_BFS_optimize:
     思路：
         优化判断队列是否对称的算法
 
-    超出时间限制
+    依然超出时间限制
     """
     def judge(self, level, length):
         for i in range(length//2):
