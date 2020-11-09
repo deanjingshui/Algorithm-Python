@@ -150,7 +150,37 @@ class Solution_iterate_stack:
                             nodes_stack.insert(0, node.right)
         return result
 
+   
+class Solution_iterate_stack_new:
+    """
+    date:2020.11.9
+    author；fenghao
+    思路：迭代
+          只要当前节点有左子节点，就入栈（而出栈延迟），直到无左子节点或者左子节点已经遍历过才开始出栈，并将右子节点入栈。
+          另外需要额外记忆曾经遍历过的节点（避免进入死循环）。
+    """
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        if root is None:
+            return []
 
+        result = []
+        stack_nodes = [root]
+        searched_nodes = []
+
+        while stack_nodes:
+            node = stack_nodes[-1]
+            if node.left and node.left not in searched_nodes:
+                stack_nodes.append(node.left)
+            else:
+                stack_nodes.pop()
+                result.append(node.val)
+                searched_nodes.append(node)
+                if node.right:
+                    stack_nodes.append(node.right)
+
+        return result
+
+   
 # node_1 = TreeNode(1)
 # node_2 = TreeNode(2)
 # node_3 = TreeNode(3)
