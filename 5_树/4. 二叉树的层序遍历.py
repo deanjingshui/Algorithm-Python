@@ -30,6 +30,35 @@ class TreeNode:
         self.left = None
         self.right = None
 
+        
+class Solution:
+    """
+    date:2020.10.9
+    author:fenghao
+    思路：
+
+    """
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+
+        result = []
+        nodes_list = [root]
+        while nodes_list:
+            tmp = []
+            nodes_list_tmp = []
+            for node in nodes_list:
+                tmp.append(node.val)
+                if node.left:
+                    nodes_list_tmp.append(node.left)
+                if node.right:
+                    nodes_list_tmp.append(node.right)
+            result.append(tmp)
+            nodes_list = nodes_list_tmp
+
+        return result   
+
+ 
 class Solution:
     """
     date:2020.10.9
@@ -61,3 +90,17 @@ class Solution:
             result.append(level)
 
         return result
+
+   
+node_3 = TreeNode(3)
+node_9 = TreeNode(9)
+node_20 = TreeNode(20)
+node_15 = TreeNode(15)
+node_7 = TreeNode(7)
+node_3.left = node_9
+node_3.right = node_20
+node_20.left = node_15
+node_20.right = node_7
+
+my = Solution()
+print(my.levelOrder(node_3))
