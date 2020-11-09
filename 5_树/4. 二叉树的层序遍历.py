@@ -36,7 +36,13 @@ class Solution:
     date:2020.10.9
     author:fenghao
     思路：
-
+        注意：
+            乍一看来，这个遍历顺序和 BFS 是一样的，我们可以直接用 BFS 得出层序遍历结果。
+            然而，层序遍历要求的输入结果和 BFS 是不同的。层序遍历要求我们区分每一层，也就是返回一个二维数组。
+            而 BFS 的遍历结果是一个一维数组，无法区分每一层。
+            https://leetcode-cn.com/problems/binary-tree-level-order-traversal/solution/bfs-de-shi-yong-chang-jing-zong-jie-ceng-xu-bian-l/
+        
+        设置一个临时列表，用于存储下一层的节点，并在遍历完节点列表之后更新节点列表
     """
     def levelOrder(self, root: TreeNode) -> List[List[int]]:
         if not root:
