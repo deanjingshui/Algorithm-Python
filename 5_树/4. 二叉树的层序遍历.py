@@ -30,6 +30,41 @@ class TreeNode:
         self.left = None
         self.right = None
 
+        
+class Solution:
+    """
+    date:2020.10.9
+    author:fenghao
+    思路：
+        注意：
+            乍一看来，这个遍历顺序和 BFS 是一样的，我们可以直接用 BFS 得出层序遍历结果。
+            然而，层序遍历要求的输入结果和 BFS 是不同的。层序遍历要求我们区分每一层，也就是返回一个二维数组。
+            而 BFS 的遍历结果是一个一维数组，无法区分每一层。
+            https://leetcode-cn.com/problems/binary-tree-level-order-traversal/solution/bfs-de-shi-yong-chang-jing-zong-jie-ceng-xu-bian-l/
+        
+        设置一个临时列表，用于存储下一层的节点，并在遍历完节点列表之后更新节点列表
+    """
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+
+        result = []
+        nodes_list = [root]
+        while nodes_list:
+            tmp = []
+            nodes_list_tmp = []
+            for node in nodes_list:
+                tmp.append(node.val)
+                if node.left:
+                    nodes_list_tmp.append(node.left)
+                if node.right:
+                    nodes_list_tmp.append(node.right)
+            result.append(tmp)
+            nodes_list = nodes_list_tmp
+
+        return result   
+
+ 
 class Solution:
     """
     date:2020.10.9
@@ -61,3 +96,17 @@ class Solution:
             result.append(level)
 
         return result
+
+   
+node_3 = TreeNode(3)
+node_9 = TreeNode(9)
+node_20 = TreeNode(20)
+node_15 = TreeNode(15)
+node_7 = TreeNode(7)
+node_3.left = node_9
+node_3.right = node_20
+node_20.left = node_15
+node_20.right = node_7
+
+my = Solution()
+print(my.levelOrder(node_3))
