@@ -34,7 +34,7 @@ def find_seller(graph):
     return False
 
 
-# 图的实现  利用映射关系
+# 图的实现  利用映射关系 采用“邻接列表”法
 graph = dict()
 graph["you"] = ["alice", "bob", "claire"]
 graph["bob"] = ["anuj", "peggy"]
