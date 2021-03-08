@@ -16,21 +16,6 @@ def convert_format(input_list):
     nodes_list = copy.deepcopy(input_list)  # 不修改入参
     ret = dict()
 
-    # cache = dict()  # cache: 存储所有节点至根节点的路径
-    # for item in nodes_list:
-    #     name = item["name"]
-    #     if "parent" in item.keys():
-    #         parent = item["parent"]
-    #         # 查看父节点是否在缓存中
-    #         if parent in cache.keys():
-    #             for p in cache[parent][::-1]:
-    #                 tmp = ret[p]
-    #         else:
-    #             cache[name] = [parent]
-    #     else:
-    #         # root node
-    #         ret[name] = {}
-
     parent_nodes = []   # 记忆上一次遍历的节点
     # 查找根节点（可多个）
     for item in nodes_list:
