@@ -144,10 +144,11 @@ class Solution_double_pointer_modify:
                 p_right -= 1
 
         # 查找索引，优化，提高可读性
-        for i in range(0, len(nums)):
+        # 先后从两个方向找，可避免找到重复的索引
+        for i in range(0, len(nums)):  # 从左往右找
             if nums[i] == nums_order[p_left]:
                 break
-        for j in range(len(nums)-1,-1,-1):
+        for j in range(len(nums)-1,-1,-1):  # 从右往左找
             if nums[j] == nums_order[p_right]:
                 break
 
