@@ -102,7 +102,7 @@ class Solution_double_pointer:
         nums_order = sorted(nums)
         p_left = 0
         p_right = len(nums) - 1
-        ret_val = []
+
         while p_left < p_right:
             if nums_order[p_left] + nums_order[p_right] == target:
                 break
@@ -124,9 +124,39 @@ class Solution_double_pointer:
         return [m, n]
 
 
-# nums = [2, 7, 11, 15]
-# target = 9
-nums = [3, 3]
-target = 6
-my_sol = Solution_double_pointer()
+class Solution_double_pointer_modify:
+    """
+    author:《你也能看得懂的Python算法书》P80
+    date:2021.3.13
+    思路：优化，提高可读性
+    """
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        nums_order = sorted(nums)
+        p_left = 0
+        p_right = len(nums) - 1
+
+        while p_left < p_right:
+            if nums_order[p_left] + nums_order[p_right] == target:
+                break
+            elif nums_order[p_left] + nums_order[p_right] < target:
+                p_left += 1
+            else:
+                p_right -= 1
+
+        # 查找索引，优化，提高可读性
+        for i in range(0, len(nums)):
+            if nums[i] == nums_order[p_left]:
+                break
+        for j in range(len(nums)-1,-1,-1):
+            if nums[j] == nums_order[p_right]:
+                break
+
+        return [i, j]
+
+
+nums = [2, 7, 11, 15]
+target = 9
+# nums = [3, 3]
+# target = 6
+my_sol = Solution_double_pointer_modify()
 print(my_sol.twoSum(nums, target))
