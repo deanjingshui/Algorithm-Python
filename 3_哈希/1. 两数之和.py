@@ -30,8 +30,8 @@ class Solution_force:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         for index_i,i in enumerate(nums[:-1]):
             for index_j,j in enumerate(nums[index_i+1:]):  # 注意这里使用的是enumerate,且不是从nums第一个元素开始，所以索引需要处理
-                if nums[index_i] + nums[index_i+index_j] == target:
-                    return [index_i, index_i+index_j]
+                if i + j == target:
+                    return [index_i, index_i+index_j+1]
 
 
 class Solution_force_modify:
@@ -55,10 +55,11 @@ class Solution_hash:
     """
     author:https://leetcode-cn.com/problems/two-sum/solution/liang-shu-zhi-he-by-leetcode-2/
     date:2020.8.7
-    思路：哈希表
+    思路：字典模拟哈希表
           哈希查找的时间复杂度为O(1)
           2次迭代，第一次迭代用于构建哈希表，第二次迭代用于哈希查找
-    时间复杂度：O(n)  虽然有2次迭代，但并没有嵌套关系
+    时间复杂度：O(n)  虽然有2次迭代，但这2次迭代并没有嵌套关系
+    空间复杂度：O(n)
     """
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         mapping = {}  # 哈希冲突怎么办？
@@ -72,6 +73,23 @@ class Solution_hash:
         for index,i in enumerate(nums):
             if mapping.get(target-i) is not None and mapping[target-i] != index:  # 注意，该目标元素不能是index本身
                 return [index, mapping[target-i]]
+
+
+class Solution_hash_one_iteration:
+    """
+    author:fenghao
+    date:2021.3.13
+    思路：字典模拟哈希表
+         只迭代一次，在创建哈希表同时进行哈希查找
+    时间复杂度：O(n)
+    空间复杂度：O(n)
+    """
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        hash_table = dict()
+        for index,i in enumerate(nums):
+            if target-i in hash_table:
+                return [hash_table[target-i], index]
+            hash_table[i] = index
 
 
 class Solution_double_pointer:
