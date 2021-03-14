@@ -125,13 +125,13 @@ class Solution_3():
 
 class Solution_4():
     """
-    author:https://leetcode-cn.com/problems/3sum/solution/pai-xu-shuang-zhi-zhen-zhu-xing-jie-shi-python3-by/
+    author:https://leetcode-cn.com/problems/3sum/solution/hua-jie-suan-fa-15-san-shu-zhi-he-by-guanpengchn/
     date:2020.8.9
     思路：
         排序+双指针，关键在已排序的前提下高效地“去重”
         无须加记忆功能，因为已排序，相邻索引比较即可去重
-    时间复杂度：O()
-
+    时间复杂度：O(n^2)
+    空间复杂度：O(1)
     """
     # def twoSum(self, nums: List[int], target:int, first:int):
     #     ret = []
