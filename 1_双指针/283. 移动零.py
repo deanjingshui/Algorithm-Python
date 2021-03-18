@@ -97,7 +97,7 @@ class Solution_4:
     力扣
     2020.9.1
     思路：
-        快慢指针？
+        快慢指针
         这才是真正的“快慢指针”
     时间复杂度：O(n)
     空间复杂度：O(1)
@@ -116,8 +116,61 @@ class Solution_4:
             j += 1
 
 
-# nums = [0,1,0,3,12]
-nums = [0,0,1]
-my_sol = Solution_2()
+class Solution_5:
+    """
+    author:fenghao
+    date:2021.3.18
+    思路：
+        快慢指针
+        慢指针指向已处理子数组的尾部，快指针指向未处理子数组的头部（用于遍历）
+
+    时间复杂度：O(n)
+    空间复杂度：O(1)
+    """
+    def moveZeroes(self, nums: List[int]) -> None:
+        if nums is None or len(nums) == 0:
+            return
+
+        left = 0
+        right = 1
+        nums_len = len(nums)
+        while right < nums_len:
+            if nums[left] == 0 and nums[right] != 0:
+                nums[left], nums[right] = nums[right], nums[left]
+                left += 1
+            elif nums[left] != 0:
+                left += 1
+            right += 1
+
+
+class Solution_6:
+    """
+    author:力扣
+    date:2021.3.18
+    思路：
+        快慢指针
+        慢指针指向已处理子数组的尾部，快指针指向未处理子数组的头部（用于遍历）
+        简化逻辑，初始的快慢指针都指向数组第一个元素
+
+    时间复杂度：O(n)
+    空间复杂度：O(1)
+    """
+    def moveZeroes(self, nums: List[int]) -> None:
+        if nums is None or len(nums) == 0:
+            return
+
+        left = 0
+        right = 0
+        nums_len = len(nums)
+        while right < nums_len:
+            if nums[right] != 0:
+                nums[left], nums[right] = nums[right], nums[left]
+                left += 1
+            right += 1
+
+
+nums = [0,1,0,3,12]
+# nums = [0,0,1]
+my_sol = Solution_6()
 my_sol.moveZeroes(nums)
 print(nums)
