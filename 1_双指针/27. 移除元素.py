@@ -42,7 +42,7 @@ class Solution:
         date:2021.3.15
         思路：
             排序 + 双指针
-            前排序
+            先排序
             左指针指向第一个出现的目标元素，右指针指向最后一个出现的目标元素的下一个元素
             用右指针元素值覆盖左指针元素值，然后左右指针向后移动1位，直到右指针遍历至数组尾部
 
@@ -66,13 +66,47 @@ class Solution:
         return left
 
 
-my_solution = Solution()
-# nums = [0,1,2,2,3,0,4,2]
-# val = 2
-nums = [2]
-val = 3
+class Solution_quick_slow_pointer:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        """
+        author:力扣 + fenghao
+        date:2021.3.15
+        思路：
+            双指针(快慢指针)
+            慢指针维护不含目标值的子数组，指向该子数组的尾部的后一位，快指针只管向后遍历
+            如果快指针指向的元素与目标值不同
+                将快指针指向值覆盖慢指针指向的值，快慢指针均向后移动1位
+            否则
+                快指针向后移动1位，慢指针不动
+            注意：子数组的长度为慢指针
+
+        时间复制度：O(n)
+        空间复杂度：O(1)
+        """
+        # 处理异常用例
+        if nums is None or len(nums) == 0:
+            return 0
+        if val not in nums:
+            return len(nums)
+
+        left = 0
+        right = 0
+        while right < len(nums):
+            if nums[right] != val:
+                nums[left] = nums[right]
+                left += 1
+            right += 1
+
+        return left
+
+
+my_solution = Solution_quick_slow_pointer()
+nums = [0,1,2,2,3,0,4,2]
+val = 2
+# nums = [2]
+# val = 3
 ret = my_solution.removeElement(nums, val)
 print(ret)
 
 for i in range(ret):
-    print(nums[i])
+    print(nums[i], end=" ")
