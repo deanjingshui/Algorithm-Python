@@ -18,8 +18,8 @@ from typing import List
 
 class Solution_1:
     """
-    fenghao
-    2020.9.6
+    author:fenghao
+    date:2020.9.6
     注意：题目要求“原地修改”
     思路：遍历，遇到0元素，就将0之后的元素依次前移一位
     结果：失败，[0,0,1]用例无法通过
@@ -39,8 +39,8 @@ class Solution_1:
 
 class Solution_2:
     """
-    fenghao
-    2020.9.1
+    author:fenghao
+    date:2020.9.1
     思路：
         遍历一遍，遇到0则一直往后找到第一个非0的元素，将两者交换位置，然后继续向后遍历
         本质上是“双指针”的解法，一个外层指针作为遍历一遍用，一个内层指针用于查找外层指针后续的第一个非零元素。
@@ -66,8 +66,8 @@ class Solution_2:
 
 class Solution_3:
     """
-    fenghao
-    2020.9.1
+    author:fenghao
+    date:2020.9.1
     思路：
         优化内部循环的逻辑
     时间复杂度：O(n^2)
@@ -94,8 +94,8 @@ class Solution_3:
 
 class Solution_4:
     """
-    力扣
-    2020.9.1
+    author:力扣
+    date:2020.9.1
     思路：
         快慢指针
         这才是真正的“快慢指针”
