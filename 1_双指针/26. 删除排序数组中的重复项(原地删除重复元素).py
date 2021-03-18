@@ -37,7 +37,7 @@ def removeDuplicates_sliding_window(nums):
           关键要求空间复杂度O(1)
     时间复杂度：O(n^2)
     空间复杂度：O(1)
-    结果：
+    结果：fail
           滑窗这个思路想复杂了，而且代码有bug
     """
 
@@ -77,9 +77,8 @@ def removeDuplicates(nums):
     left = 0
     right = 1
     while right < len(nums):
-        if nums[left] == nums[right]:
-            right += 1
-        else:
+        # 慢指针移动条件
+        if nums[left] != nums[right]:
             # nums[left + 1], nums[right] = nums[right], nums[left + 1]
             # left += 1
             # right += 1
@@ -89,7 +88,7 @@ def removeDuplicates(nums):
             # 我这里做交换的目的是不破坏数组中的元素
             # 当然根据题意可以直接覆盖：nums[left]=nums[right]
             nums[left], nums[right] = nums[right], nums[left]
-            right += 1
+        right += 1
 
     return left + 1
 
@@ -99,4 +98,4 @@ ret = removeDuplicates(nums)
 print(ret)
 
 for i in range(ret):
-    print(nums[i])
+    print(nums[i], end=" ")
