@@ -56,13 +56,14 @@ class Solution:
         return result
 
 
-class Solution_1:
+class Solution_double_pointer_reverse:
     """
     author:fenghao
     date:2021.3.19
     思路：
-        双指针，背向指针
-        找到所有的顶点，从每个顶点处开始，左右2个指针向两边移动
+        双指针，反向指针
+        找到所有的顶点，从每个顶点处开始，左右2个指针背对背的向两边移动
+
     时间复杂度：O(n)
     空间复杂度：O(n)  记录顶点
     """
@@ -95,8 +96,40 @@ class Solution_1:
         return result
 
 
+class Solution_double_pointer_sync:
+    """
+    author:w3
+    date:2021.3.19
+    思路：
+        双指针（同向双指针） + 有限状态机
+
+    时间复杂度：O(n)
+    空间复杂度：O(n)  记录顶点
+    """
+
+    def longestMountain(self, arr: List[int]) -> int:
+        result = 0
+        arr_len = len(arr)
+        i = 0
+        while i < arr_len - 1:
+            while i < arr_len - 1 and arr[i] >= arr[i+1]:  # 找到合适的start
+                i += 1
+            start = i
+            while i < arr_len - 1 and arr[i] < arr[i+1]:  # 找到山顶peak
+                i += 1
+            peak = i
+            while i < arr_len - 1 and arr[i] > arr[i+1]:  # 找到山底end
+                i += 1
+            end = i
+            if start < peak < end:
+                result = max(result, end - start + 1)
+
+        return result
+
+
+
 # arr = [2, 1, 4, 7, 3, 2, 5]
 # arr = [2,2,2]
 arr = [2, 1, 4, 7, 3, 2, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4]
-my_sol = Solution_1()
+my_sol = Solution_double_pointer_sync()
 print(my_sol.longestMountain(arr))
