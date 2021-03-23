@@ -19,62 +19,22 @@
 from typing import List
 
 
-class Solution:
+class Solution_force:
     """
     author:fenghao
-    date:2021.3.19
-    思路：滑窗（双指针）
+    date:2021.3.23
+    思路：
+        暴力解法，穷举所以有子数组 + 哈希桶
 
-          窗口中不同整数的个数 vs 目标
-              小于，右边界移动1位
-              等于，右边界移动1位
-              大于，先右边界回退1位，移动左边界
-                    1）如果窗口长度大于目标，左边界移动1位，直到窗口小于目标
-                    2）左边界移动1位
-
-          难点：当滑窗超过目标，不能只简单的移动左边界，需要先继续移动右边界
-
-    结果：逻辑混乱，fail
+        考虑所有连续子区间，时间复杂度为O(n^2)
+        每一个连续子区间，需要检查子区间里出现的不同的数字的种数，时间复杂度为O(n)
+        总的时间复杂度为O(n^3)
     """
     def subarraysWithKDistinct(self, A: List[int], K: int) -> int:
-        # 处理异常输入
-        if A is None or len(A) < K:
-            return 0
-
-        ret = 0
-        length = len(A)
-        left = 0
-        right = 0
-        k_tmp = 1            # 滑窗中不同整数的个数
-        hash_table = dict()  # 滑窗中每个字符的出现的频率
-        hash_table[A[0]] = 1
-
-        while right < length:
-            if k_tmp == K:
-                ret += 1
-            if k_tmp <= K:    # 滑窗右边界移动1位
-                right += 1
-                if right == length:
-                    break
-                if A[right] not in hash_table:
-                    k_tmp += 1
-                    hash_table[A[right]] = 1
-                else:
-                    hash_table[A[right]] += 1
-            else:             # 滑窗左边界移动1位
-                left += 1
-                A_sub = A[left:right]
-                k_tmp += self.subarraysWithKDistinct(A_sub, K)  # 递归
-                if hash_table[A[left]] == 1:
-                    k_tmp -= 1
-                    hash_table.pop(A[left])
-                else:
-                    hash_table[A[right]] -= 1
-
-        return ret
+        pass
 
 
-class Solution_1:
+class Solution_sliding_window:
     """
     author:fenghao
     date:2021.3.23
@@ -86,10 +46,11 @@ class Solution_1:
               等于目标+1，右边界先回退1位，然后针对这个窗口计算
                     [1 2 1 2]
 
-          难点：当窗口属性等于目标，右边界还需要往回移动！
+          难点： 这道题并不像之前的滑窗简单
+                当窗口属性等于目标，右边界还需要往回移动！
                      1 2 1 2
                      1 2 1
-
+          结果：未完成
     """
     def subarraysWithKDistinct(self, A: List[int], K: int) -> int:
         # 处理异常输入
@@ -132,12 +93,31 @@ class Solution_1:
                 else:
                     hash_table[A[left]] -= 1
 
-            # 同时左指针移动
+            # 左指针移动
 
         return ret
 
 
+class Solution_sliding_window_leetcode:
+    """
+    author:leetcode
+            https://leetcode-cn.com/problems/subarrays-with-k-different-integers/solution/cong-zui-jian-dan-de-wen-ti-yi-bu-bu-tuo-7f4v/
+    date:2021.3.23
+    思路：滑窗（双指针）
+
+          一般性滑窗问题
+            “至少”、“最多”等字眼
+
+          因为
+            恰好由 K 个不同整数的子数组的个数 = 最多由 K 个不同整数的子数组的个数 - 最多由 K - 1 个不同整数的子数组的个数
+          所以
+            将问题转化为2个一般的滑窗问题
+
+    """
+    def subarraysWithKDistinct(self, A: List[int], K: int) -> int:
+
+
 A = [1,2,1,2,3]
 K = 2
-my_sol = Solution_1()
+my_sol = Solution_sliding_window()
 print(my_sol.subarraysWithKDistinct(A, K))
