@@ -32,7 +32,7 @@ class Solution:
                     1）如果窗口长度大于目标，左边界移动1位，直到窗口小于目标
                     2）左边界移动1位
 
-           难点：当滑窗超过目标，不能只简单的移动左边界，需要继续移动右边界
+          难点：当滑窗超过目标，不能只简单的移动左边界，需要先继续移动右边界
 
     结果：逻辑混乱，fail
     """
@@ -81,12 +81,14 @@ class Solution_1:
     思路：滑窗（双指针）
 
           窗口中不同整数的个数 vs 目标
-              小于，右边界移动1位
-              等于，仍然是右边界移动1位，结果+1
-              大于，移动左边界移动1位
-                    窗口值比目标大1，结果+1
+              小于目标，右边界移动1位
+              等于目标，仍然是右边界移动1位
+              等于目标+1，右边界先回退1位，然后针对这个窗口计算
+                    [1 2 1 2]
 
-           难点：当滑窗超过目标，不能只简单的移动左边界，需要继续移动右边界
+          难点：当窗口属性等于目标，右边界还需要往回移动！
+                     1 2 1 2
+                     1 2 1
 
     """
     def subarraysWithKDistinct(self, A: List[int], K: int) -> int:
@@ -102,49 +104,38 @@ class Solution_1:
         hash_table = dict()  # 滑窗中每个字符的出现的频率
         hash_table[A[0]] = 1
 
+        # 难点：外层循环结束的条件
         while right < length - 1:
             # 右指针移动
-            while k_tmp < K and right < length - 1:
+            while k_tmp <= K and right < length - 1:
                 right += 1
                 if A[right] not in hash_table:
                     k_tmp += 1
                     hash_table[A[right]] = 1
                 else:
                     hash_table[A[right]] += 1
+            if k_tmp == K + 1:
+                right = right - 1
+                hash_table.pop(A[right])
+                k_tmp = K
 
-            # 右指针继续移动
-            while k_tmp == K and right < length - 1:
+            # 针对这个窗口计算
+            while k_tmp == K:
                 ret += 1
-                right += 1
-                if A[right] not in hash_table:
-                    k_tmp += 1
-                    hash_table[A[right]] = 1
-                else:
-                    hash_table[A[right]] += 1
 
-            # 左指针移动
-            while k_tmp == K + 1 and left <= right:
+
+
+                left += 1
                 if hash_table[A[left]] == 1:
+                    hash_table.pop(hash_table[A[left]])
                     k_tmp -= 1
-                    hash_table.pop(A[left])
-                    break
                 else:
                     hash_table[A[left]] -= 1
-                    ret += 1
-                left += 1
 
-            # 左指针移动
-            while k_tmp == K and left <= right:
-                ret += 1
-                if hash_table[A[left]] == 1:
-                    k_tmp -= 1
-                    hash_table.pop(A[left])
-                    break
-                else:
-                    hash_table[A[left]] -= 1
-                left += 1
+            # 同时左指针移动
 
         return ret
+
 
 A = [1,2,1,2,3]
 K = 2
