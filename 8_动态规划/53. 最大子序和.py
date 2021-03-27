@@ -16,7 +16,7 @@
 from typing import List
 
 
-class Solution_1:
+class Solution_force:
     """
     author:fenghao
     date:2020.8.22
@@ -36,13 +36,13 @@ class Solution_1:
         return sum_max
 
 
-class Solution_2:
+class Solution_iterate:
     """
     author:fenghao
     date:2020.8.19
     思路：
-        一次性遍历
-        难点是考虑清楚条件
+        从左往右遍历，遇到sum<0就重新开始计算
+
     时间复杂度：O(n)
     """
     def maxSubArray(self, nums: List[int]) -> int:
@@ -68,35 +68,79 @@ class Solution_2:
         return sum_max
 
 
-class Solution_3:
+class Solution_iterate_modify:
     """
-    author:fenghao
-    date:2020.8.22
+    author:力扣
+    date:2021.3.27
     思路：
-        滑窗，可读性更好
+        提高可读性
+            其实不需要判断列表是否全是负值
+
+    时间复杂度：O(n)
+    """
+
+    # def maxSubArray(self, nums: List[int]) -> int:
+    #     len_array = len(nums)
+    #     sum_max = nums[0]
+    #     sum_tmp = max(0, nums[0])        # 累积和,非负
+    #     for i in range(1,len_array):
+    #         if sum_max < 0:
+    #             sum_max = max(sum_max, nums[i])
+    #             sum_tmp = max(0, nums[i])
+    #         else:
+    #             sum_tmp += nums[i]
+    #             sum_max = max(sum_max, sum_tmp)
+    #             # 判断是否将累积和清零，注意维持累积和为非负,否则没必要累加
+    #             sum_tmp = max(0, sum_tmp)
+    #     return sum_max
+
+    def maxSubArray(self, nums: List[int]) -> int:
+        len_array = len(nums)
+        ret = nums[0]
+        sum = 0
+        for i in range(len_array):
+            sum += nums[i]
+            ret = max(ret, sum)
+            if sum < 0:
+                sum = 0
+        return ret
+
+
+class Solution_dp:
+    """
+    author:w3
+    date:2021.3.27
+    思路：
+        动态规划
+            dp[i]的含义：以第1个元素结尾的子数组的最大和
+            状态转移方程：
+                dp[i]=max(dp[i-1]+nums[i], nums[i])
+                base case
+                dp[0] = nums[0]
+
+        难点：想不到怎么用动态规划
+        注意：结果并不是dp[n]，而是对dp[i]进行取max
+
     时间复杂度：O(n)
     """
 
     def maxSubArray(self, nums: List[int]) -> int:
-        len_array = len(nums)
-        sum_max = nums[0]
-        sum_tmp = max(0, nums[0])        # 累积和,非负
-        for i in range(1,len_array):
-            if sum_max < 0:
-                sum_max = max(sum_max, nums[i])
-                sum_tmp = max(0, nums[i])
-            else:
-                sum_tmp += nums[i]
-                sum_max = max(sum_max, sum_tmp)
-                # 判断是否将累积和清零，注意维持累积和为非负,否则没必要累加
-                sum_tmp = max(0, sum_tmp)
-        return sum_max
+        n = len(nums)
+        dp = [nums[0]] * n
+        dp[0] = nums[0]
+        ret = nums[0]
+        for i in range(1,n):
+            dp[i] = max(dp[i-1] + nums[i], nums[i])
+            ret = max(ret, dp[i])    # 注意：结果并不是dp[n]
+        return ret
 
 
-# nums = [-2,1,-3,4,-1,2,1,-5,4]
+nums = [-2,1,-3,4,-1,2,1,-5,4]
 # nums = [-2,1]
 # nums = [-1,1,2,1]
 # nums = [-2,1,-3,4,-1,2,1,-5,4]
-nums = [1,2]
-my_sol = Solution_3()
+# nums = [1,2]
+my_sol = Solution_iterate_modify()
+print(my_sol.maxSubArray(nums))
+my_sol = Solution_dp()
 print(my_sol.maxSubArray(nums))
