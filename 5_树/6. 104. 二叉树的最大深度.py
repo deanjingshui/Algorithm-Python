@@ -1,8 +1,6 @@
 """
 给定一个二叉树，找出其最大深度。
-
 二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
-
 说明: 叶子节点是指没有子节点的节点。
 
 示例：
@@ -39,15 +37,12 @@ class Solution_recursive_dfs:
                 根节点的深度为左子树深度、右子树深度中的最大值，再加 1
                 dp[root] = max(dp[root.left], dp[root.right]) + 1
 
-        难点：如何求最值
-        解决：
-              参考力扣“自顶向下”的模板
+        也可参考：
+              力扣“自顶向下”的模板
               https://leetcode-cn.com/leetbook/read/data-structure-binary-tree/xefb4e/
 
-              二叉树每个节点至多有2个子节点，那么分别求左、右子树的最大深度，最后返回两者中的最大值
-
     时间复杂度：O(n)   因为需要遍历每一个节点
-    空间复杂度：O(height)   因为使用递归，递归深度即树的深度
+    空间复杂度：O(height)   因为使用递归，需要栈空间取决于递归深度即树的深度
     """
     def maxDepth(self, root: TreeNode) -> int:
         if not root:
