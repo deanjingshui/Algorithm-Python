@@ -15,13 +15,17 @@
 解释：偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。
      偷窃到的最高金额 = 2 + 9 + 1 = 12 。
 
+提示：
+0 <= nums.length <= 100
+0 <= nums[i] <= 400
+
 来源：力扣（LeetCode）
 链接：https://leetcode-cn.com/problems/house-robber
 """
 from typing import List
 
 
-class Solution:
+class Solution_dp:
     """
     author:fenghao
     date:2021.3.29
@@ -51,8 +55,70 @@ class Solution:
         return max(dp[n-1][0], dp[n-1][1])
 
 
+class Solution_dp_leetcode:
+    """
+    author:leetcode
+    date:2021.3.29
+    思路：
+          动态规划
+            dp[i]的含义：有i户人家时可获得的最大金额
+            状态转移方程：
+                有2个前置状态
+                    偷第i人家，则第i-1户不能偷   dp[i-2] + nums[i]
+                    不偷第i户人家    dp[i-1]
+                dp[i] = max(dp[i-2] + nums[i], dp[i-1])
+
+    时间复杂度：O(n)
+    空间复杂度：O(n)
+    """
+    def rob(self, nums: List[int]) -> int:
+        n = len(nums)
+        dp = [0] * n
+        if n == 0:
+            return 0
+
+        # base case
+        if n > 0:
+            dp[0] = nums[0]
+        if n > 1:
+            dp[1] = max(nums[0], nums[1])
+
+        for i in range(2,n):
+            dp[i] = max(dp[i-2] + nums[i], dp[i-1])
+        return dp[n-1]
+
+
+class Solution_dp_leetcode_modify_space:
+    """
+    author:leetcode
+    date:2021.3.29
+    思路：
+          动态规划 + 滚动数组
+            dp[i] = max(dp[i-2] + nums[i], dp[i-1])
+            实际上只需要知道最后的状态，观察状态转移方程可知更新每个状态只依赖之前的2个状态
+
+    时间复杂度：O(n)
+    空间复杂度：O(1)
+    """
+    def rob(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n == 0:
+            return 0
+
+        # base case
+        if n > 0:
+            first = nums[0]
+        if n > 1:
+            second = max(nums[0], nums[1])
+
+        for i in range(2, n):
+            tmp = second
+            second = max(first + nums[i], second)
+            first = tmp
+        return second
+
 # nums = [1,2,3,1]
 # nums = [2,7,9,3,1]
 nums = [2,1,1,2]
-my_sol = Solution()
+my_sol = Solution_dp_leetcode_modify_space()
 print(my_sol.rob(nums))
