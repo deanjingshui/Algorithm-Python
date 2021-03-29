@@ -28,12 +28,17 @@ class TreeNode:
         self.right = None
 
 
-class Solution_recursive:
+class Solution_recursive_dfs:
     """
     date:2020.10.10
     author:fenghao + 力扣
     思路：
-        递归  每一次递归调用，深度+1
+        递归 DFS
+            dp[root]的含义：root为根节点的树的深度
+            递归方程：
+                根节点的深度为左子树深度、右子树深度中的最大值，再加 1
+                dp[root] = max(dp[root.left], dp[root.right]) + 1
+
         难点：如何求最值
         解决：
               参考力扣“自顶向下”的模板
@@ -41,8 +46,8 @@ class Solution_recursive:
 
               二叉树每个节点至多有2个子节点，那么分别求左、右子树的最大深度，最后返回两者中的最大值
 
-    时间复杂度：O()
-    空间复杂度：O()
+    时间复杂度：O(n)   因为需要遍历每一个节点
+    空间复杂度：O(height)   因为使用递归，递归深度即树的深度
     """
     def maxDepth(self, root: TreeNode) -> int:
         if not root:
@@ -56,15 +61,12 @@ class Solution_recursive:
         return max(left_depth, right_depth)
 
 
-class Solution_recursive_simplify:
+class Solution_recursive_dfs_simplify:
     """
     date:2020.10.10
     author:fenghao + 力扣
     思路：
         删除多余代码
-
-    时间复杂度：O()
-    空间复杂度：O()
     """
     def maxDepth(self, root: TreeNode) -> int:
         if not root:
@@ -75,6 +77,42 @@ class Solution_recursive_simplify:
         return max(left_depth, right_depth) + 1
 
 
+from collections import deque
+class Solution_iterate_bfs:
+    """
+    date:2021.3.29
+    author:力扣官方
+    思路：
+        迭代 BFS
+    时间复杂度：O(n)
+    空间复杂度：O(m)  每一层节点的最大数量
+    """
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+
+        result = 0
+        queue = deque()
+        queue.append(root)
+        while len(queue) != 0:
+            level_len = len(queue)  # 取出当前队列的长度
+            for i in range(level_len):
+                node = queue.popleft()
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            result += 1
+        return result
+
+
+"""
+     3
+    / \
+   4   5
+  / \   \
+ 1   3   1
+"""
 node_3 = TreeNode(3)
 node_9 = TreeNode(9)
 node_20 = TreeNode(20)
@@ -85,5 +123,7 @@ node_3.right = node_20
 node_20.left = node_15
 node_20.right = node_7
 
-my_sol = Solution_recursive_simplify()
+my_sol = Solution_recursive_dfs_simplify()
+print(my_sol.maxDepth(node_3))
+my_sol = Solution_iterate_bfs()
 print(my_sol.maxDepth(node_3))
