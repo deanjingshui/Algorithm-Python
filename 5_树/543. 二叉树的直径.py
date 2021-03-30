@@ -42,8 +42,9 @@ class Solution:
 
 class Solution_leetcode:
     """
+    author:fenghao+力扣
     思路不变
-        难点：代码实现
+        难点：代码实现  其实递归本身就会遍历所有的节点！
         自顶向下遍历节点，求每个节点的左子树高度与右子树高度的和，取其中的最大值为
     """
     def __init__(self):
@@ -76,6 +77,29 @@ class Solution_leetcode:
             return 0
         return max(self.getHeight(root.left), self.getHeight(root.right)) + 1
 
+
+class Solution_leetcode_simplify:
+    """
+    author:力扣官方
+    date:2021.3.29
+            简化代码
+    """
+    def __init__(self):
+        self.max = 0  # 存储结果
+
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        self.depth(root)
+        return self.max
+
+    def depth(self, root):
+        if root is None:
+            return 0
+        L = self.depth(root.left)
+        R = self.depth(root.right)
+        self.max = max(self.max, L+R)
+
+        return max(L, R) + 1
+
 """
      3
     / \
@@ -95,4 +119,6 @@ node_2.left = node_4
 node_2.right = node_5
 node_3.right = node_6
 my_sol = Solution_leetcode()
+print(my_sol.diameterOfBinaryTree(node_1))
+my_sol = Solution_leetcode_simplify()
 print(my_sol.diameterOfBinaryTree(node_1))
