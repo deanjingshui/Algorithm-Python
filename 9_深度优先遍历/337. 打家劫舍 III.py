@@ -39,8 +39,33 @@ class TreeNode:
         self.left = left
         self.right = right
 
+
 class Solution:
+    """
+    author:leetcode
+    date:2021.3.31
+    思路：树形动态规划
+             思路与“打家劫舍”一致
+             状态转移方程：
+                  有2种前置状态
+                     <1偷root节点：root.val + rob(root.left.left) + rob(root.left.right) + rob(root.right.left) + rob(root.right.right)
+                     <2不偷root节点：rob(root.left) + rob(root.right)
+                  rob(root) = max(<1, <2)
+
+    结果：大用例超出时间限制
+    """
     def rob(self, root: TreeNode) -> int:
+        if root is None:
+            return 0
+        money_1 = root.val
+        if root.left:
+            money_1 += self.rob(root.left.left) + self.rob(root.left.right)
+        if root.right:
+            money_1 += self.rob(root.right.left) + self.rob(root.right.right)
+
+        money_2 = self.rob(root.left) + self.rob(root.right)
+
+        return max(money_1, money_2)
 
 
 
