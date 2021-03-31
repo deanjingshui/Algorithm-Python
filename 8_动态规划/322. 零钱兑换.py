@@ -50,8 +50,9 @@ class Solution_dp:
     思路：动态规划(自底向上)
             dp[i]的含义：组成金额为i最少需要的硬币个数
             状态转移方程：dp[i] = min(dp[i - {t|t属于coins}]) + 1
-    时间复杂度：O(n)
-    空间复杂度：O(n)
+
+    时间复杂度：O(n * amount)，n是可选硬币的种类数，amount是题目输入的面值
+    空间复杂度：O(amount)，dp数组的大小为 amount
     """
     def coinChange(self, coins: List[int], amount: int) -> int:
         dp = [-1] * (amount + 1)
