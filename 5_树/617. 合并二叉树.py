@@ -40,12 +40,13 @@ class Solution:
     空间：O(height) 栈花销
     """
     def mergeTrees(self, root1: TreeNode, root2: TreeNode) -> TreeNode:
-        if root1 and root2:
-            root1.val += root2.val                                 # 先“做事”
-            root1.left = self.mergeTrees(root1.left, root2.left)   # 再依次递归调用左、右子树 --->前序遍历
-            root1.right = self.mergeTrees(root1.right, root2.right)
-        elif (not root1) and root2:
+
+        if (not root1) and root2:
             root1 = root2
+        elif root1 and root2:
+            root1.val += root2.val                                 # 先“做事”
+            root1.left = self.mergeTrees(root1.left, root2.left)   # 再依次递归调用左、右子树--->前序遍历
+            root1.right = self.mergeTrees(root1.right, root2.right)
 
         return root1
 
