@@ -36,6 +36,8 @@ class Solution:
     author:fenghao
     date:2121.4.5
     思路：深度优先遍历（递归） 前序遍历
+         这是一道典型的利用递归实现前序遍历二叉树的题目
+
     时间：O(n)
     空间：O(height) 栈花销
     """
