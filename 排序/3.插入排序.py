@@ -4,77 +4,77 @@ Me:
     1、插入排序在头部维护了一个有序的子序列，依次将剩余元素插入到这个有序的子序列中
     2、插入方式：待插入元素与有序子序列比较，且是从后往前比较
     3、原地修改，不需要额外的空间
-时间复杂度与输入的序列排序程度相关：
+
+时间复杂度：
+    与输入的序列排序程度相关
     最佳情况：已排好序，O(n)
     最坏情况：逆序排序的，O(n^2)
     平均情况：O(n^2)
+
 空间复杂度：
     O(1),只需要一个额外空间用于交换
+
 稳定性分析:
     稳定的
-【如果待排序的序列中存在两个或两个以上具有相同关键词的数据，排序后这些数据的相对次序保持不变，即它们的位置保持不变，
-通俗地讲，就是两个相同的数的相对顺序不会发生改变，则该算法是稳定的；如果排序后，数据的相对次序发生了变化，则该算法
-是不稳定的。】
+    【如果待排序的序列中存在两个或两个以上具有相同关键词的数据，排序后这些数据的相对次序保持不变，即它们的位置保持不变，
+    通俗地讲，就是两个相同的数的相对顺序不会发生改变，则该算法是稳定的；如果排序后，数据的相对次序发生了变化，则该算法
+    是不稳定的。】
 
 哨兵：
     待补充
 
 优化：
     折半插入排序
-    上面的算法的缺点：在第i-1趟插入时，需要把第i个元素插入到前面的i-1个元素中，该算法总是从i-1个元素开始逐个比较之前的
-    每个元素，直到找到第i个元素的插入位置，这显然没有利用前面0~i-1个元素已经有序的特点。
-    在0~i-1个有序元素给第i个元素寻找插入的位置时，使用二分查找法可以有效提高查找插入位置的时间效率，经过优化的插入排序
+    上面的算法的缺点：在第i-1趟插入时，需要把第i个元素插入到前面的 i-1个元素中，该算法总是从 i-1个元素开始逐个比较之前的
+    每个元素，直到找到第i个元素的插入位置，这显然没有利用前面 0~i-1个元素已经有序的特点。
+    在 0~i-1个有序元素给第 i个元素寻找插入的位置时，使用二分查找法可以有效提高查找插入位置的时间效率，经过优化的插入排序
     称为折半插入排序，折半插入排序的时间复杂度为O(n*logn)。
-
 """
 
-def insertion_sort_classic(list_case):
+
+def insertion_sort_classic(nums):
     """
     author:《算法导论》
     date:2020.8.1
     """
-    for i in range(1, len(list_case)):
-        key = list_case[i]
+    for i in range(1, len(nums)):
+        key = nums[i]
         j = i - 1
-        while j >= 0 and list_case[j] > key:
-            list_case[j+1] = list_case[j]  # 向后移
+        while j >= 0 and nums[j] > key:
+            nums[j + 1] = nums[j]  # 向后移
             j -= 1
-        list_case[j+1] = key  # 找到插入位置
-    return list_case
+        nums[j + 1] = key  # 找到插入位置
+    return nums
 
 
-def insertion_sort_classic_2(list_case):
+def insertion_sort_classic_2(nums):
     """
     author:基于《算法导论》,可读性优化
     date:2020.8.1
     """
-    for i in range(1, len(list_case)):
-        key = list_case[i]
+    for i in range(1, len(nums)):
+        key = nums[i]
         j = i - 1
-        while j >= 0 and list_case[j] > key:
-            list_case[j+1], list_case[j] = list_case[j], list_case[j+1]  # 两两交换，向后移
+        while j >= 0 and nums[j] > key:
+            nums[j + 1], nums[j] = nums[j], nums[j + 1]  # 两两交换，向后移
             j -= 1
-    return list_case
+    return nums
 
 
-def insert_sort_1(list_case):
+def insert_sort_1(nums):
     """
-    author:internet
+    author:互联网
     """
-    list_test = list_case.copy()
-
-    for passnum in range(1,len(list_test)):  # 轮询次数passnum是列表长度减去1
+    for passnum in range(1, len(nums)):  # 轮询次数passnum是列表长度减去1
         index = passnum
         for i in list(range(0, passnum))[::-1]:  # Me：负数索引可读性略差
-            if list_test[i]<list_test[index]:
+            if nums[i] < nums[index]:
                 continue
             else:
-                list_test[i],list_test[index]=list_test[index],list_test[i]
+                nums[i], nums[index] = nums[index], nums[i]
                 index = i
-
-        print('{:>12} {}'.format(str(passnum) + ' time:', list_test))
-
-    return list_test
+        print('{:>12} {}'.format(str(passnum) + ' time:', nums))
+    return nums
 
 
 def insert_sort_2(lst):
@@ -116,8 +116,8 @@ def insert_sort_3(lst):
                 break   # 注意，插入后须结束循环，否则错误，因有序子序列已改变，故不能再继续迭代了
     return lst
 
-if __name__=="__main__":
 
-    list_test_case1 = [54,36,12,29,50]
-    print('{:>12} {}'.format('before 排序:',list_test_case1))
-    print('{:>12} {}'.format('after 排序:', insertion_sort_classic_2(list_test_case1)))
+if __name__ == "__main__":
+    nums = [54, 36, 12, 29, 50]
+    print('{:>12} {}'.format('before 排序:', nums))
+    print('{:>12} {}'.format('after 排序:', insertion_sort_classic_2(nums)))
