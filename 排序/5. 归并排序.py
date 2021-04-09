@@ -1,3 +1,8 @@
+"""
+归并排序
+"""
+
+
 def merge_two_sorted_lst(lst_1, lst_2):
     """
     author:fenghao
@@ -26,22 +31,31 @@ def merge_two_sorted_lst(lst_1, lst_2):
     return lst_ret
 
 
-def merge_sort(lst):
+def merge_sort(nums):
     """
     author:fenghao
     date:2020.8.2
     思路：递归
           递归公式
-                     n, len(n)=1
-            f(n) =
-                    merge_two_sorted_lst(f(前1/2), f(后1/2))， len(n)>1
+                     n, len(nums)=1
+            f(nums) =
+                    merge_two_sorted_lst(f(nums前1/2), f(nums后1/2))， len(n)>1
     """
-    if len(lst) == 1:
-        return lst
-    len_lst = len(lst)
-    sub_lst_1 = lst[:len_lst//2]
-    sub_lst_2 = lst[len_lst//2:]
+    if len(nums) == 1:
+        return nums
+    len_lst = len(nums)
+    sub_lst_1 = nums[:len_lst // 2]
+    sub_lst_2 = nums[len_lst // 2:]
     return merge_two_sorted_lst(merge_sort(sub_lst_1), merge_sort(sub_lst_2))
+
+
+def merge_sort_iterate(lst):
+    """
+    author:
+    date:
+    思路：采用迭代的方式去实现
+    """
+    pass
 
 
 c = [54,26,93,17,77,31,44,55,20]
