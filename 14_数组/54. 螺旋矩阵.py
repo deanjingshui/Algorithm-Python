@@ -91,6 +91,7 @@ class Solution_leetcode:
     author:力扣网友 https://leetcode-cn.com/problems/spiral-matrix/solution/cxiang-xi-ti-jie-by-youlookdeliciousc-3/
     date:2021.4.13
     思路：设定上下左右边界
+             区别于“模拟”的思路，这里不再关心每次要走多少步，而只关心是否走到了“边界”
     """
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         result = list()
