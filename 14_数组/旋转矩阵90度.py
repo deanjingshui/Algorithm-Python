@@ -18,10 +18,8 @@ def func(squad):
     return result
 
 
-squad = [[1,2,3,4],
-         [5,6,7,8],
-         [9,10,11,12],
-         [13,14,15,16]]
+n = 4
+squad = [[i*4 + j for j in range(1, n+1)] for i in range(n)]
 result = func(squad)
 n = len(result)
 for i in range(n):
