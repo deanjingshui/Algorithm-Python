@@ -12,7 +12,7 @@ from typing import List
 
 class Solution:
     """
-    athor:fenghao
+    author:fenghao
     date:2021.4.7
     思路：找规律
             对于m行n列的矩阵
@@ -27,25 +27,19 @@ class Solution:
     """
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         result = list()
-        rows = len(matrix)
-        columns = len(matrix[0])
+        rows = len(matrix)          # 矩阵行数
+        columns = len(matrix[0])    # 矩阵列数
         column_steps = columns      # 水平方向步进次数
         row_steps = rows - 1        # 竖直方向步进次数
-        row_index = 0
-        column_index = 0
-        num = 0
-        total = rows * columns
+        row_index = 0               # 当前行坐标
+        column_index = -1           # 当前列坐标，初始位置不在（0,0），而是（0，-1）
+        num = 0                     # 已遍历元素个数
+        total = rows * columns      # 矩阵元素总个数
         while column_steps > 0 or row_steps > 0:
             # 由左往右
-            if column_index == 0 and row_index == 0:
-                for i in range(column_steps):
-                    column_index = i
-                    print((row_index, column_index))
-                    result.append(matrix[row_index][column_index])
-            else:
-                for i in range(column_steps):
-                    column_index += 1
-                    result.append(matrix[row_index][column_index])
+            for i in range(column_steps):
+                column_index += 1
+                result.append(matrix[row_index][column_index])
             num += column_steps
             if num == total:
                 break
