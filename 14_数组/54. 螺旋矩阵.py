@@ -10,7 +10,7 @@ https://leetcode-cn.com/problems/spiral-matrix/
 from typing import List
 
 
-class Solution:
+class Solution_simulation:
     """
     author:fenghao
     date:2021.4.7
@@ -86,31 +86,47 @@ class Solution_peel_apple:
         return res
 
 
-class Solution_recursive:
+class Solution_leetcode:
     """
-    athor:力扣网友+fenghao
-    date:2021.4.7
-    思路：递归
+    author:力扣网友 https://leetcode-cn.com/problems/spiral-matrix/solution/cxiang-xi-ti-jie-by-youlookdeliciousc-3/
+    date:2021.4.13
+    思路：设定上下左右边界
     """
-    def helper(self, ):
-        pass
-
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        row = len(matrix)
-        column = len(matrix[0])
-        # base case
-        if row == 0:
-            return []
-
         result = list()
-        result += matrix[0]
-        result += matrix
+        top = 0
+        bottom = len(matrix) - 1
+        left = 0
+        right = len(matrix[0]) - 1
+        row, column = 0, 0
+        while True:
+            for column in range(left, right + 1):
+                result.append(matrix[row][column])
+            top += 1
+            if top > bottom:
+                break
+            for row in range(top, bottom + 1):
+                result.append(matrix[row][column])
+            right -= 1
+            if left > right:
+                break
+            for column in range(right, left - 1, -1):
+                result.append(matrix[row][column])
+            bottom -= 1
+            if top > bottom:
+                break
+            for row in range(bottom, top - 1, -1):
+                result.append(matrix[row][column])
+            left += 1
+            if left > right:
+                break
+        return result
 
 
 matrix = [[1,2,3],[4,5,6],[7,8,9]]
 # matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
 # my_sol = Solution()
-my_sol = Solution_peel_apple()
+my_sol = Solution_leetcode()
 print(my_sol.spiralOrder(matrix))
 # print(matrix)
 # print(*matrix)
