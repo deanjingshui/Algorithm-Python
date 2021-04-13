@@ -13,7 +13,9 @@ class Solution:
     author；fenghao
     date:2021.4.13
     思路：思考不使用额外的空间
-         将矩阵看成一圈一圈组成的“环形数组”组成，旋转90度，就是将每一圈“环形数组”都转90度
+         将矩阵看成一圈一圈的“环形数组”组成，旋转90度，就是将每一圈“环形数组”都转90度
+             进一步地，问题变成环形数组的平移问题
+         难点：数组并非圆形，需细心地将四条边移动方向写正确
     时间：O(n^2)
     空间：O(1)
     """
@@ -23,9 +25,10 @@ class Solution:
         """
         n = len(matrix)
         levels = n//2  # 矩阵的层数
-        nums = n      # 每层的元素个数
+        nums = n       # 每层的单条边的元素个数
         for level in range(levels):
-            # 该层元素（“环形数组”）顺时针移动nums个元素
+            # 该层元素（“环形数组”）顺时针移动nums-1个元素
+            # 每轮循环，左上角的元素坐标是[level,level]
             for num in range(nums-1):
                 tmp = matrix[level][level+num]
                 matrix[level][level+num] = matrix[(n-1)-level-num][level]
