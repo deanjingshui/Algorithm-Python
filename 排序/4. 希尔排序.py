@@ -18,24 +18,26 @@
 
 
 def shellSort(alist):
+    """
+    https://runestone.academy/runestone/books/published/pythonds/SortSearch/TheShellSort.html
+    """
     sublistcount = len(alist) // 2
     while sublistcount > 0:
-
         for startposition in range(sublistcount):
             gapInsertionSort(alist, startposition, sublistcount)
 
         print("After increments of size", sublistcount,
               "The list is", alist)
-
         sublistcount = sublistcount // 2
 
 
 def gapInsertionSort(alist, start, gap):
+    """
+    https://runestone.academy/runestone/books/published/pythonds/SortSearch/TheShellSort.html
+    """
     for i in range(start + gap, len(alist), gap):
-
         currentvalue = alist[i]
         position = i
-
         while position >= gap and alist[position - gap] > currentvalue:
             alist[position] = alist[position - gap]
             position = position - gap
@@ -46,3 +48,39 @@ def gapInsertionSort(alist, start, gap):
 alist = [54, 26, 93, 17, 77, 31, 44, 55, 20]
 shellSort(alist)
 print(alist)
+
+
+def insert_sort(nums, gap, index):
+    """
+    author:fenghao
+    date:2021.4.15
+        nums[index],nums[index+gap],nums[index+gap+gap] ...
+    """
+    n = len(nums)
+    for i in range(index+gap, n, gap):
+        key = nums[i]
+        j = i - gap
+        while j >= index and nums[j] > key:
+            nums[j+gap], nums[j] = nums[j], nums[j+gap]
+            j -= gap
+    return nums
+
+
+def shell_sort(nums):
+    """
+    author:fenghao
+    date:2021.4.15
+    """
+    n = len(nums)
+    gap = n//2
+    while gap >= 1:
+        for i in range(gap):   # 分为gap组
+            nums = insert_sort(nums, gap, i)  # 每组进行插入排序
+        gap = gap//2
+    return nums
+
+
+if __name__ == "__main__":
+    nums = [54, 36, 5, 12, 29, 6, 50, 11]
+    print('{:>12} {}'.format('before 排序:', nums))
+    print('{:>12} {}'.format('after 排序:', shell_sort(nums)))

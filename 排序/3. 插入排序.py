@@ -29,7 +29,7 @@ Me:
 """
 
 
-def insertion_sort(nums):
+def insertion_sort_move(nums):
     """
     author:《算法导论》
     date:2020.8.1
@@ -44,7 +44,7 @@ def insertion_sort(nums):
     return nums
 
 
-def insertion_sort_2(nums):
+def insertion_sort_swap(nums):
     """
     author:基于《算法导论》,改成两两交换
            其实比第一种解法效率低，每次循环多做了一个赋值动作
@@ -134,5 +134,5 @@ def insertion_sort_sentinel(nums):
 if __name__ == "__main__":
     nums = [54, 36, 12, 29, 50]
     print('{:>12} {}'.format('before 排序:', nums))
-    print('{:>12} {}'.format('after 排序:', insertion_sort(nums)))
+    print('{:>12} {}'.format('after 排序:', insertion_sort_move(nums)))
     print('{:>12} {}'.format('after 排序:', insertion_sort_sentinel(nums)))
