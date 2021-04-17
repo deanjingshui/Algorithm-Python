@@ -21,11 +21,11 @@ class Solution:
     """
     author；fenghao
     date:2021.4.17
-    思路：
+    思路：  巧妙利用数组的索引作为频率值
         先遍历一遍获得数字的频率信息,存进字典dict {num:freq}
         创建一个数组arr，数组长度为最高频率值
-        遍历字典dict，将频率freq作为数组的索引，存进nunm
-        编译数组arr
+        遍历字典dict，将频率freq作为数组的索引，存进num
+        反向遍历数组arr
     """
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         result = list()
@@ -40,7 +40,7 @@ class Solution:
         for num, freq in freq_dict.items():
             max_freq = max(max_freq, freq)
         arr = [[] for _ in range(max_freq+1)]
-        
+
         for num, freq in freq_dict.items():
             arr[freq].append(num)
 
