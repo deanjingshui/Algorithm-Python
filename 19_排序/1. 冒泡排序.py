@@ -16,7 +16,7 @@ def bubble_sort(nums):
     return nums
 
 
-def modiBubbleSort(nums):
+def bubble_sort_modify(nums):
     """
     bubble sort
     author：https://github.com/Jack-Lee-Hiter/AlgorithmsByPython/blob/master/BubbleSort.py
