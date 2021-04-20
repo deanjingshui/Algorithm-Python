@@ -27,7 +27,7 @@ class Solution:
         num = abs(num)
         while num:
             num, mod = divmod(num, 7)
-            result = str(mod) + result
+            result = str(mod) + result   # 倒序
         return str(int(result)*flag)
 
 
