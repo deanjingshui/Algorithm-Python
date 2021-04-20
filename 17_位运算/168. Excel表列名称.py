@@ -29,21 +29,41 @@
 """
 
 
-def convertToTitle(num):
+def convertToTitle(columnNumber: int)-> str:
     """
-    ASCII  1--->498  A--->65
+    author:fenghao
+    date:2021.4.20
+    思路：本质是26进制
+         另外，还考察了ASCII表： A--->65
+    结果：大用例错误  num = 701
     """
     result = ""
     mapping = dict()
-    for i in range(1, 26):
+    for i in range(1, 27):
         mapping[i] = chr(i+64)
-    while num > 26:
-        num, mod = divmod(num, 26)
-        result = mapping[mod] + result  # 倒叙
-    if mod == 0:
-        result += 'Z'
+    while columnNumber > 0:
+        columnNumber, mod = divmod(columnNumber, 26)
+        if mod != 0:
+            result = mapping[mod] + result  # 倒序
     return result
 
 
-num = 1
+def convertToTitle_leetcode(columnNumber: int)-> str:
+    """
+    author:leetcode
+    date:2021.4.20
+    思路：
+    """
+    result = ""
+    while columnNumber > 0:
+        columnNumber -= 1
+        columnNumber, mod = divmod(columnNumber, 26)
+        result = chr(mod+65) + result  # 倒序
+    return result
+
+# num = 1
+# num = 27     # AA
+# num = 28     # AB
+num = 701      # AY ？ ZY
 print(convertToTitle(num))
+print(convertToTitle_leetcode(num))
