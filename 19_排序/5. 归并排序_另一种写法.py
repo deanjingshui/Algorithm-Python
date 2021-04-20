@@ -1,4 +1,6 @@
-
+"""
+归并排序
+"""
 
 
 def mergeSort(alist):
